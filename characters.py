@@ -1,6 +1,7 @@
 characters_data = [
     {
         "name": "Holden Caulfield",
+        "image_url": "https://via.placeholder.com/150/0000FF/FFFFFF?Text=Character",
         "significance": "The protagonist and narrator of the novel, a teenager grappling with adolescence, identity, and the perceived phoniness of the adult world.",
         "traits": [
             "Disillusioned", "Cynical", "Critical of 'phonies'",
@@ -33,6 +34,7 @@ characters_data = [
     },
     {
         "name": "Phoebe Caulfield",
+        "image_url": "https://via.placeholder.com/150/0000FF/FFFFFF?Text=Character",
         "significance": "Holden's younger sister, she is intelligent, innocent, and one of the few characters Holden genuinely connects with and respects.",
         "traits": ["Intelligent", "Perceptive", "Innocent but not naive", "Caring", "Direct", "Youthful wisdom"],
         "relationships": {
@@ -49,6 +51,7 @@ characters_data = [
     },
     {
         "name": "Allie Caulfield",
+        "image_url": "https://via.placeholder.com/150/0000FF/FFFFFF?Text=Character",
         "significance": "Holden's deceased younger brother, who died of leukemia. Allie represents lost innocence and perfection in Holden's mind.",
         "traits": ["Intelligent", "Kind", "Red-haired", "Wrote poems on his baseball glove"],
         "relationships": {
@@ -61,6 +64,7 @@ characters_data = [
     },
     {
         "name": "D.B. Caulfield",
+        "image_url": "https://via.placeholder.com/150/0000FF/FFFFFF?Text=Character",
         "significance": "Holden's older brother, a talented writer who now works in Hollywood, which Holden views as a form of selling out.",
         "traits": ["Talented writer", "Successful (in Hollywood terms)"],
         "relationships": {
@@ -73,6 +77,7 @@ characters_data = [
     },
     {
         "name": "Ward Stradlater",
+        "image_url": "https://via.placeholder.com/150/0000FF/FFFFFF?Text=Character",
         "significance": "Holden's roommate at Pencey Prep. He is handsome and popular but also arrogant and a 'secret slob' in Holden's eyes.",
         "traits": ["Handsome", "Athletic", "Popular", "Arrogant", "Superficial", "Secret slob"],
         "relationships": {
@@ -84,6 +89,7 @@ characters_data = [
     },
     {
         "name": "Jane Gallagher",
+        "image_url": "https://via.placeholder.com/150/0000FF/FFFFFF?Text=Character",
         "significance": "A girl from Holden's past whom he remembers fondly and respects. She represents a more innocent and genuine connection for Holden.",
         "traits": ["Innocent (in Holden's view)", "Thoughtful (kept her kings in the back row)", "Had a difficult home life"],
         "relationships": {
@@ -95,6 +101,7 @@ characters_data = [
     },
     {
         "name": "Sally Hayes",
+        "image_url": "https://via.placeholder.com/150/0000FF/FFFFFF?Text=Character",
         "significance": "A girl Holden has dated before and meets up with in New York. She is attractive and conventional, but Holden ultimately finds her superficial.",
         "traits": ["Attractive", "Conventional", "Superficial (in Holden's view)", "Articulate"],
         "relationships": {
@@ -105,6 +112,7 @@ characters_data = [
     },
     {
         "name": "Mr. Antolini",
+        "image_url": "https://via.placeholder.com/150/0000FF/FFFFFF?Text=Character",
         "significance": "Holden's former English teacher, who is one of the few adults Holden initially respects and seeks advice from. The visit ends awkwardly.",
         "traits": ["Intelligent", "Concerned for Holden", "Offers academic and life advice"],
         "relationships": {
@@ -117,6 +125,7 @@ characters_data = [
     },
     {
         "name": "Sunny",
+        "image_url": "https://via.placeholder.com/150/0000FF/FFFFFF?Text=Character",
         "significance": "A young prostitute whom Holden hires through Maurice but then only wants to talk to, highlighting his loneliness and confusion about sex.",
         "traits": ["Young", "Business-like", "Seems uninterested in conversation"],
         "relationships": {
@@ -128,6 +137,7 @@ characters_data = [
     },
     {
         "name": "Maurice",
+        "image_url": "https://via.placeholder.com/150/0000FF/FFFFFF?Text=Character",
         "significance": "The elevator operator at the Edmont Hotel who also acts as a pimp. He cheats Holden out of money and assaults him.",
         "traits": ["Intimidating", "Dishonest", "Aggressive"],
         "relationships": {
@@ -139,6 +149,7 @@ characters_data = [
     },
     {
         "name": "Robert Ackley",
+        "image_url": "https://via.placeholder.com/150/0000FF/FFFFFF?Text=Character",
         "significance": "Holden's pimply and insecure next-door neighbor at Pencey Prep. Holden finds him annoying but also pities him at times.",
         "traits": ["Insecure", "Poor hygiene", "Intrusive", "Annoying", "Lonely"],
         "relationships": {
@@ -149,6 +160,7 @@ characters_data = [
     },
     {
         "name": "Mr. Spencer",
+        "image_url": "https://via.placeholder.com/150/0000FF/FFFFFF?Text=Character",
         "significance": "Holden's elderly history teacher at Pencey Prep who tries to give Holden a lecture about his future after failing him.",
         "traits": ["Elderly", "Well-meaning but somewhat out of touch with Holden", "Concerned about Holden's academic failure"],
         "relationships": {
