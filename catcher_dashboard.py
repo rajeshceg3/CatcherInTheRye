@@ -159,4 +159,3 @@ st.sidebar.divider() # Using st.divider() if available and preferred over markdo
 st.sidebar.caption("Dive into the world of *The Catcher in the Rye*. Data from `characters.py`.")
 # Changed to st.caption for a slightly different style, can revert to st.info if caption is too small.
 # Using st.divider() for a modern look. If it causes issues (e.g. older streamlit version), revert to st.sidebar.markdown("---")
-```
