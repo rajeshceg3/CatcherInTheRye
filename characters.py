@@ -56,7 +56,7 @@ characters_data = [
             "D.B. Caulfield": "Older brother.",
             "Phoebe Caulfield": "Younger sister."
         },
-        "quotes": [],
+        "quotes": ["He wrote poems on his baseball glove in green ink so he'd have something to read when he was in the field and nobody was up at bat. (Described by Holden)"],
         "first_appearance_context": "Through Holden's memories and the English composition he writes about Allie's baseball glove."
     },
     {
@@ -68,7 +68,7 @@ characters_data = [
             "Allie Caulfield": "Deceased younger brother.",
             "Phoebe Caulfield": "Younger sister."
         },
-        "quotes": [],
+        "quotes": ["What I thought about all this stuff I just finished telling you about? (Paraphrased from Holden's account of D.B. asking him)"],
         "first_appearance_context": "Mentioned by Holden early in the novel when discussing his family and his dislike for Hollywood."
     },
     {
