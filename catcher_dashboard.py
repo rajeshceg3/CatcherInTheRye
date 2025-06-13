@@ -16,81 +16,93 @@ def display_character_info(character):
     Args:
         character (dict): A dictionary containing the data for a single character.
     """
-    st.header(character["name"]) # Character's name as a main header
+    # Columns for image and name
+    col1, col2 = st.columns([1, 3]) # Image column is 1/4, text column is 3/4
+
+    with col1:
+        if "image_url" in character and character["image_url"]:
+            st.image(character["image_url"], width=150) # Adjusted width for column
+        # else:
+        #     st.caption("Image not available.") # Optional
+
+    with col2:
+        st.header(character["name"]) # Character's name
+
+    st.divider() # Divider after the header/image row
+
+    with st.container():
+        st.subheader("🌟 Significance")
+        st.markdown(character["significance"])
     st.divider()
 
-    # Display Significance
-    st.subheader("🌟 Significance")
-    st.markdown(character["significance"])
+    with st.container():
+        st.subheader("✨ Key Traits")
+        if character["traits"]:
+            st.markdown("""<style>
+                           .trait-badge {
+                               background-color: #f0f2f6;
+                               border-radius: 5px;
+                               padding: 0.2em 0.6em;
+                               margin: 0.2em 0.3em;
+                               display: inline-block;
+                               font-weight: normal;
+                               border: 1px solid #e0e0e0;
+                               transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+                           }
+                           .trait-badge:hover {
+                               transform: scale(1.05);
+                               box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+                           }
+                           </style>""", unsafe_allow_html=True)
+            traits_html = "".join([f'<span class="trait-badge">{trait}</span>' for trait in character["traits"]])
+            st.markdown(traits_html, unsafe_allow_html=True)
+        else:
+            st.markdown("No specific traits noted.")
     st.divider()
 
-    # Display Key Traits
-    st.subheader("✨ Key Traits")
-    if character["traits"]:
-        # For a more "tag-like" feel with markdown, we can try this:
-        # traits_md = " ".join([f"**`{trait}`**" for trait in character["traits"]])
-        # Or a slightly simpler bold list:
-        # traits_md = ""
-        # for trait in character["traits"]:
-        #    traits_md += f"- **{trait}**\n"
-        # Let's go with the simpler bold list for now for broader compatibility and readability.
-        st.markdown("""<style>
-                       .trait-badge {
-                           background-color: #f0f2f6;
-                           border-radius: 5px;
-                           padding: 0.2em 0.6em;
-                           margin: 0.2em 0.3em;
-                           display: inline-block;
-                           font-weight: normal;
-                           border: 1px solid #e0e0e0;
-                       }
-                       </style>""", unsafe_allow_html=True)
-        traits_html = "".join([f'<span class="trait-badge">{trait}</span>' for trait in character["traits"]])
-        st.markdown(traits_html, unsafe_allow_html=True)
-    else:
-        st.markdown("No specific traits noted.")
+    with st.container():
+        st.subheader("🤝 Relationships")
+        if character["relationships"]:
+            for name, description in character["relationships"].items():
+                with st.expander(f"**{name}**"):
+                    st.markdown(description)
+        else:
+            st.markdown("No specific relationships noted.")
     st.divider()
 
-    # Display Relationships
-    st.subheader("🤝 Relationships")
-    if character["relationships"]:
-        for name, description in character["relationships"].items():
-            with st.expander(f"**{name}**"): # Use expander for each relationship
-                st.markdown(description)
-    else:
-        st.markdown("No specific relationships noted.")
+    with st.container():
+        st.subheader("💬 Memorable Quotes")
+        if character["quotes"]:
+            st.markdown("""<style>
+                           .custom-quote {
+                               border-left: 5px solid #007bff; /* Blue left border */
+                               background-color: #f9f9f9; /* Light grey background */
+                               padding: 10px 20px;
+                               margin: 10px 0px;
+                               font-style: italic;
+                               color: #333;
+                               border-radius: 5px;
+                               box-shadow: 0px 2px 5px rgba(0,0,0,0.05);
+                           }
+                           .custom-quote p {
+                               margin: 0;
+                           }
+                           </style>""", unsafe_allow_html=True)
+            for i, quote in enumerate(character["quotes"]):
+                st.markdown(f'<div class="custom-quote"><p>"{quote}"</p></div>', unsafe_allow_html=True)
+        else:
+            st.markdown("No specific quotes noted for this character.")
     st.divider()
 
-    # Display Memorable Quotes
-    st.subheader("💬 Memorable Quotes")
-    if character["quotes"]:
-        st.markdown("""<style>
-                       .custom-quote {
-                           border-left: 5px solid #007bff; /* Blue left border */
-                           background-color: #f9f9f9; /* Light grey background */
-                           padding: 10px 20px;
-                           margin: 10px 0px;
-                           font-style: italic;
-                           color: #333;
-                       }
-                       .custom-quote p {
-                           margin: 0;
-                       }
-                       </style>""", unsafe_allow_html=True)
-        for i, quote in enumerate(character["quotes"]):
-            # Using a more robust way to ensure paragraph styling within the quote
-            st.markdown(f'<div class="custom-quote"><p>"{quote}"</p></div>', unsafe_allow_html=True)
-            # Removed the <br> as margins on .custom-quote should handle spacing
-    else:
-        st.markdown("No specific quotes noted for this character.")
-    st.divider()
-
-    # Display First Appearance Context
-    st.subheader("🗺️ First Appearance Context")
-    st.markdown(character["first_appearance_context"])
+    with st.container():
+        st.subheader("🗺️ First Appearance Context")
+        st.markdown(character["first_appearance_context"])
     # No divider after the last section typically
 
 # --- Main Dashboard App ---
+
+# Add a banner image
+st.image("https://via.placeholder.com/800x200/007bff/FFFFFF?Text=Catcher+In+The+Rye+Banner", use_column_width=True)
 
 # Set the main title of the dashboard
 st.title("The Catcher in the Rye: Character Explorer")
