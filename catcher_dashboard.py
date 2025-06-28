@@ -1,5 +1,6 @@
 import streamlit as st
 from characters import characters_data # Assuming characters.py is in the same directory
+from themes import themes_data # Import themes_data
 
 # Page configuration
 # This should be the first Streamlit command in your script, and it can only be set once.
@@ -99,13 +100,64 @@ def display_character_info(character):
         st.markdown(character["first_appearance_context"])
     # No divider after the last section typically
 
+def display_theme_info(theme):
+    """
+    Displays the detailed information for the selected theme.
+    Args:
+        theme (dict): A dictionary containing the data for a single theme.
+    """
+    st.header(theme["name"]) # Theme's name
+    st.divider()
+
+    with st.container():
+        st.subheader("📖 Description")
+        st.markdown(theme["description"])
+    st.divider()
+
+    with st.container():
+        st.subheader("💬 Illustrative Quotes")
+        if theme["related_quotes"]:
+            for quote in theme["related_quotes"]:
+                st.markdown(f"> {quote}") # Markdown for blockquote
+        else:
+            st.markdown("No specific quotes noted for this theme.")
+    st.divider()
+
+    with st.container():
+        st.subheader("👥 Characters Associated")
+        if theme["characters_associated"]:
+            # Using badges similar to character traits for consistency:
+            st.markdown('''<style>
+                           .char-badge {
+                               background-color: #e0f7fa; /* Light cyan background */
+                               border-radius: 5px;
+                               padding: 0.2em 0.6em;
+                               margin: 0.2em 0.3em;
+                               display: inline-block;
+                               font-weight: normal;
+                               border: 1px solid #b2ebf2; /* Cyan border */
+                           }
+                           </style>''', unsafe_allow_html=True)
+            chars_html = "".join([f'<span class="char-badge">{name}</span>' for name in theme["characters_associated"]])
+            st.markdown(chars_html, unsafe_allow_html=True)
+        else:
+            st.markdown("No specific characters strongly associated with this theme.")
+    # No divider after the last section typically
+
 # --- Main Dashboard App ---
+
+# Sidebar for explorer mode selection
+st.sidebar.header("Explorer Mode 🧭")
+explorer_mode = st.sidebar.radio(
+    "Choose an explorer:",
+    ("Character Explorer", "Theme Explorer")
+)
 
 # Add a banner image
 st.image("https://via.placeholder.com/800x200/007bff/FFFFFF?Text=Catcher+In+The+Rye+Banner", use_column_width=True)
 
 # Set the main title of the dashboard
-st.title("The Catcher in the Rye: Character Explorer")
+st.title("The Catcher in the Rye: Interactive Explorer") # Updated title
 
 # Introductory text for the dashboard
 intro_col1, intro_col2 = st.columns([3, 1]) # Give more space to text
@@ -131,43 +183,62 @@ with intro_col2:
     )
     st.caption("Explore the characters to find more truths (or lies!).")
 
-# Data Preparation: Create a list of character names for the selectbox
-# This makes it easy to populate the dropdown and refer back to the main data list.
-character_names = [char["name"] for char in characters_data]
+if explorer_mode == "Character Explorer":
+    # Data Preparation: Create a list of character names for the selectbox
+    # This makes it easy to populate the dropdown and refer back to the main data list.
+    character_names = [char["name"] for char in characters_data]
 
-# Sidebar for character selection
-st.sidebar.header("Meet the Characters 🎭") # Header for the sidebar section
-st.sidebar.markdown("Choose a name from the list below to see their story unfold.")
-selected_character_name = st.sidebar.selectbox(
-    "Choose a character:", # Label for the selectbox
-    options=character_names, # List of options to choose from
-    index=0 # Default to the first character in the list (Holden Caulfield)
-)
+    # Sidebar for character selection
+    st.sidebar.header("Meet the Characters 🎭") # Header for the sidebar section
+    st.sidebar.markdown("Choose a name from the list below to see their story unfold.")
+    selected_character_name = st.sidebar.selectbox(
+        "Choose a character:", # Label for the selectbox
+        options=character_names, # List of options to choose from
+        index=0 # Default to the first character in the list (Holden Caulfield)
+    )
 
-# Data Retrieval: Find the selected character's data from the characters_data list
-selected_character_data = None # Initialize as None
-for char_data in characters_data:
-    if char_data["name"] == selected_character_name:
-        selected_character_data = char_data
-        break # Exit loop once character is found
+    # Data Retrieval: Find the selected character's data from the characters_data list
+    selected_character_data = None # Initialize as None
+    for char_data in characters_data:
+        if char_data["name"] == selected_character_name:
+            selected_character_data = char_data
+            break # Exit loop once character is found
 
-# Display Logic: Show the selected character's information or an error if not found
-if selected_character_data:
-    display_character_info(selected_character_data) # Call function to display data
-else:
-    # This error should ideally not be reached if character_names is derived from characters_data
-    st.error("Character data not found. Please check the data source (`characters.py`).")
+    # Display Logic: Show the selected character's information or an error if not found
+    if selected_character_data:
+        display_character_info(selected_character_data) # Call function to display data
+    else:
+        # This error should ideally not be reached if character_names is derived from characters_data
+        st.error("Character data not found. Please check the data source (`characters.py`).")
+
+    st.divider() # Visual separator before the footer
+    st.caption("Holden Caulfield's journey, character by character. An exploration of *The Catcher in the Rye*. Inspired by J.D. Salinger's timeless novel.")
+
+elif explorer_mode == "Theme Explorer":
+    st.sidebar.header("Explore Themes 📚")
+    theme_names = [theme["name"] for theme in themes_data]
+    selected_theme_name = st.sidebar.selectbox(
+        "Choose a theme:",
+        options=theme_names,
+        index=0 # Default to the first theme
+    )
+
+    selected_theme_data = None
+    for theme_data_item in themes_data:
+        if theme_data_item["name"] == selected_theme_name:
+            selected_theme_data = theme_data_item
+            break
+
+    if selected_theme_data:
+        display_theme_info(selected_theme_data) # Call the function to display theme details
+    else:
+        st.error("Theme data not found.")
 
 # Ensure this is outside the display_character_info function, at the end of the script's main flow.
 
-st.divider() # Visual separator before the footer
-st.caption("Holden Caulfield's journey, character by character. An exploration of *The Catcher in the Rye*. Inspired by J.D. Salinger's timeless novel.")
-# Alternatively, a more direct footer:
-# st.caption("Character Explorer for The Catcher in the Rye | Built with Streamlit")
-# Let's go with the more thematic one.
 
 # Sidebar Footer Information
 st.sidebar.divider() # Using st.divider() if available and preferred over markdown "---"
-st.sidebar.caption("Dive into the world of *The Catcher in the Rye*. Data from `characters.py`.")
+st.sidebar.caption("Explore characters or themes from *The Catcher in the Rye*.") # Updated sidebar caption
 # Changed to st.caption for a slightly different style, can revert to st.info if caption is too small.
 # Using st.divider() for a modern look. If it causes issues (e.g. older streamlit version), revert to st.sidebar.markdown("---")

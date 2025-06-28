@@ -12,12 +12,14 @@ This project is a simple interactive dashboard built with Python and Streamlit t
     *   Memorable quotes (where available)
     *   Context of their first appearance
 *   User-friendly interface with a sidebar for character selection.
+*   Explore key themes/motifs from the novel, with descriptions, illustrative quotes, and associated characters.
 *   Wide layout for better readability.
 
 ## Project Structure
 
 *   `catcher_dashboard.py`: The main Streamlit application script.
 *   `characters.py`: Contains the data for the characters in a Python list of dictionaries.
+*   `themes.py`: Contains data for literary themes explored in the dashboard.
 *   `requirements.txt`: Lists the Python packages required to run the dashboard.
 *   `README.md`: This file.
 
