@@ -30,7 +30,8 @@ characters_data = [
             "I'm sort of a pacifist, if you want to know the truth.",
             "Anyway, I keep picturing all these little kids playing some game in this big field of rye and all. [...] And I'm standing on the edge of some crazy cliff. What I have to do, I have to catch everybody if they start to go over the cliff."
         ],
-        "first_appearance_context": "Narrator from the beginning of the novel, recounting events from a rest home."
+        "first_appearance_context": "Narrator from the beginning of the novel, recounting events from a rest home.",
+        "associated_themes": ["Phoniness", "Innocence", "Alienation/Isolation", "Grief/Loss", "Fear of Change/Growing Up", "Identity Crisis"]
     },
     {
         "name": "Phoebe Caulfield",
@@ -47,7 +48,8 @@ characters_data = [
             "You don't like anything that's happening.",
             "Allie's dead. You can't stop a person from dying."
         ],
-        "first_appearance_context": "Holden sneaks into his parents' apartment to talk to her."
+        "first_appearance_context": "Holden sneaks into his parents' apartment to talk to her.",
+        "associated_themes": ["Innocence", "Grief/Loss", "Fear of Change/Growing Up"]
     },
     {
         "name": "Allie Caulfield",
@@ -60,7 +62,8 @@ characters_data = [
             "Phoebe Caulfield": "Younger sister."
         },
         "quotes": ["He wrote poems on his baseball glove in green ink so he'd have something to read when he was in the field and nobody was up at bat. (Described by Holden)"],
-        "first_appearance_context": "Through Holden's memories and the English composition he writes about Allie's baseball glove."
+        "first_appearance_context": "Through Holden's memories and the English composition he writes about Allie's baseball glove.",
+        "associated_themes": ["Innocence", "Grief/Loss"]
     },
     {
         "name": "D.B. Caulfield",
@@ -73,7 +76,8 @@ characters_data = [
             "Phoebe Caulfield": "Younger sister."
         },
         "quotes": ["What I thought about all this stuff I just finished telling you about? (Paraphrased from Holden's account of D.B. asking him)"],
-        "first_appearance_context": "Mentioned by Holden early in the novel when discussing his family and his dislike for Hollywood."
+        "first_appearance_context": "Mentioned by Holden early in the novel when discussing his family and his dislike for Hollywood.",
+        "associated_themes": ["Phoniness"]
     },
     {
         "name": "Ward Stradlater",
@@ -85,7 +89,8 @@ characters_data = [
             "Jane Gallagher": "Goes on a date with her, to Holden's dismay."
         },
         "quotes": [],
-        "first_appearance_context": "Introduced as Holden's roommate at Pencey Prep early in the novel."
+        "first_appearance_context": "Introduced as Holden's roommate at Pencey Prep early in the novel.",
+        "associated_themes": ["Phoniness"]
     },
     {
         "name": "Jane Gallagher",
@@ -97,7 +102,8 @@ characters_data = [
             "Ward Stradlater": "Goes on a date with him."
         },
         "quotes": [],
-        "first_appearance_context": "Mentioned by Holden when he finds out Stradlater is dating her; she appears only in Holden's memories and conversations."
+        "first_appearance_context": "Mentioned by Holden when he finds out Stradlater is dating her; she appears only in Holden's memories and conversations.",
+        "associated_themes": ["Innocence"]
     },
     {
         "name": "Sally Hayes",
@@ -108,7 +114,8 @@ characters_data = [
             "Holden Caulfield": "Goes on a date to a play and ice skating; Holden impulsively asks her to run away with him."
         },
         "quotes": [],
-        "first_appearance_context": "Holden calls her to arrange a date after arriving in New York."
+        "first_appearance_context": "Holden calls her to arrange a date after arriving in New York.",
+        "associated_themes": ["Phoniness"]
     },
     {
         "name": "Mr. Antolini",
@@ -121,7 +128,8 @@ characters_data = [
         "quotes": [
             "The mark of the immature man is that he wants to die nobly for a cause, while the mark of the mature man is that he wants to live humbly for one."
         ],
-        "first_appearance_context": "Holden visits him late in the novel, seeking refuge and guidance."
+        "first_appearance_context": "Holden visits him late in the novel, seeking refuge and guidance.",
+        "associated_themes": ["Fear of Change/Growing Up", "Phoniness"]
     },
     {
         "name": "Sunny",
@@ -133,7 +141,8 @@ characters_data = [
             "Holden Caulfield": "Hires her but doesn't go through with anything sexual."
         },
         "quotes": [],
-        "first_appearance_context": "Holden arranges for her to come to his hotel room via Maurice."
+        "first_appearance_context": "Holden arranges for her to come to his hotel room via Maurice.",
+        "associated_themes": ["Innocence", "Alienation/Isolation"]
     },
     {
         "name": "Maurice",
@@ -145,7 +154,8 @@ characters_data = [
             "Holden Caulfield": "Scams and physically intimidates him over payment for Sunny."
         },
         "quotes": [],
-        "first_appearance_context": "Works as an elevator operator and approaches Holden about sending a prostitute to his room."
+        "first_appearance_context": "Works as an elevator operator and approaches Holden about sending a prostitute to his room.",
+        "associated_themes": ["Phoniness"]
     },
     {
         "name": "Robert Ackley",
@@ -156,7 +166,8 @@ characters_data = [
             "Holden Caulfield": "Neighbor at Pencey; often barges into Holden's room."
         },
         "quotes": [],
-        "first_appearance_context": "Introduced early in the novel as Holden's suitemate at Pencey Prep."
+        "first_appearance_context": "Introduced early in the novel as Holden's suitemate at Pencey Prep.",
+        "associated_themes": ["Alienation/Isolation"]
     },
     {
         "name": "Mr. Spencer",
@@ -169,6 +180,7 @@ characters_data = [
         "quotes": [
             "Life is a game, boy. Life is a game that one plays according to the rules."
         ],
-        "first_appearance_context": "Holden visits him before leaving Pencey Prep, at Mr. Spencer's request."
+        "first_appearance_context": "Holden visits him before leaving Pencey Prep, at Mr. Spencer's request.",
+        "associated_themes": ["Phoniness", "Fear of Change/Growing Up"]
     }
 ]
