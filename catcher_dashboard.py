@@ -98,7 +98,34 @@ def display_character_info(character):
     with st.container():
         st.subheader("🗺️ First Appearance Context")
         st.markdown(character["first_appearance_context"])
-    # No divider after the last section typically
+    st.divider() # Added divider for consistency before new section
+
+    # Section for Associated Themes
+    with st.container():
+        st.subheader("🎨 Associated Themes")
+        if character.get("associated_themes") and character["associated_themes"]: # Check if key exists and list is not empty
+            # Define CSS for theme-badge styling
+            st.markdown("""<style>
+                           .theme-badge {
+                               background-color: #f0e6ff; /* Light purple background */
+                               border-radius: 5px;
+                               padding: 0.2em 0.6em;
+                               margin: 0.2em 0.3em;
+                               display: inline-block;
+                               font-weight: normal;
+                               border: 1px solid #d1c4e9; /* Purple border */
+                               transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+                           }
+                           .theme-badge:hover {
+                               transform: scale(1.05);
+                               box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+                           }
+                           </style>""", unsafe_allow_html=True)
+            themes_html = "".join([f'<span class="theme-badge">{theme_name}</span>' for theme_name in character["associated_themes"]])
+            st.markdown(themes_html, unsafe_allow_html=True)
+        else:
+            st.markdown("No specific themes strongly associated with this character.")
+    st.divider() # Divider after the new section
 
 def display_theme_info(theme):
     """
@@ -109,22 +136,42 @@ def display_theme_info(theme):
     st.header(theme["name"]) # Theme's name
     st.divider()
 
+    # Section for Description
     with st.container():
-        st.subheader("📖 Description")
+        st.subheader("📖 Description") # Changed to subheader
         st.markdown(theme["description"])
     st.divider()
 
+    # Section for Illustrative Quotes
     with st.container():
-        st.subheader("💬 Illustrative Quotes")
+        st.subheader("💬 Illustrative Quotes") # Changed to subheader
         if theme["related_quotes"]:
+            # Define CSS for custom quote styling, similar to display_character_info
+            st.markdown("""<style>
+                           .custom-quote {
+                               border-left: 5px solid #007bff; /* Blue left border */
+                               background-color: #f9f9f9; /* Light grey background */
+                               padding: 10px 20px;
+                               margin: 10px 0px;
+                               font-style: italic;
+                               color: #333;
+                               border-radius: 5px;
+                               box-shadow: 0px 2px 5px rgba(0,0,0,0.05);
+                           }
+                           .custom-quote p {
+                               margin: 0;
+                           }
+                           </style>""", unsafe_allow_html=True)
             for quote in theme["related_quotes"]:
-                st.markdown(f"> {quote}") # Markdown for blockquote
+                # Apply custom-quote styling to each quote
+                st.markdown(f'<div class="custom-quote"><p>"{quote}"</p></div>', unsafe_allow_html=True)
         else:
             st.markdown("No specific quotes noted for this theme.")
     st.divider()
 
+    # Section for Characters Associated
     with st.container():
-        st.subheader("👥 Characters Associated")
+        st.subheader("👥 Characters Associated") # Changed to subheader
         if theme["characters_associated"]:
             # Using badges similar to character traits for consistency:
             st.markdown('''<style>
