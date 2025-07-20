@@ -31,30 +31,52 @@ def display_character_info(character):
 
     st.divider() # Divider after the header/image row
 
+    # Custom CSS for enhanced UI elements
+    st.markdown("""
+        <style>
+            .trait-badge, .theme-badge {
+                background-color: #D1E8E2; /* Pastel green */
+                border-radius: 15px;
+                padding: 0.3em 0.8em;
+                margin: 0.2em 0.3em;
+                display: inline-block;
+                font-weight: normal;
+                border: 1px solid #B0C4DE; /* Light steel blue */
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .trait-badge:hover, .theme-badge:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            }
+            .custom-quote {
+                border-left: 5px solid #FFDAB9; /* Peach puff */
+                background-color: #FFF5EE; /* Seashell */
+                padding: 15px 20px;
+                margin: 15px 0;
+                font-style: italic;
+                color: #5D4037; /* Brown */
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                transition: background-color 0.3s ease;
+            }
+            .custom-quote:hover {
+                background-color: #FFE4C4; /* Bisque */
+            }
+            .custom-quote p {
+                margin: 0;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+
     with st.container():
         st.subheader("🌟 Significance")
-        st.markdown(character["significance"])
+        st.markdown(f"<p style='font-size: 1.1em;'>{character['significance']}</p>", unsafe_allow_html=True)
     st.divider()
 
     with st.container():
         st.subheader("✨ Key Traits")
         if character["traits"]:
-            st.markdown("""<style>
-                           .trait-badge {
-                               background-color: #f0f2f6;
-                               border-radius: 5px;
-                               padding: 0.2em 0.6em;
-                               margin: 0.2em 0.3em;
-                               display: inline-block;
-                               font-weight: normal;
-                               border: 1px solid #e0e0e0;
-                               transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-                           }
-                           .trait-badge:hover {
-                               transform: scale(1.05);
-                               box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-                           }
-                           </style>""", unsafe_allow_html=True)
             traits_html = "".join([f'<span class="trait-badge">{trait}</span>' for trait in character["traits"]])
             st.markdown(traits_html, unsafe_allow_html=True)
         else:
@@ -74,21 +96,6 @@ def display_character_info(character):
     with st.container():
         st.subheader("💬 Memorable Quotes")
         if character["quotes"]:
-            st.markdown("""<style>
-                           .custom-quote {
-                               border-left: 5px solid #007bff; /* Blue left border */
-                               background-color: #f9f9f9; /* Light grey background */
-                               padding: 10px 20px;
-                               margin: 10px 0px;
-                               font-style: italic;
-                               color: #333;
-                               border-radius: 5px;
-                               box-shadow: 0px 2px 5px rgba(0,0,0,0.05);
-                           }
-                           .custom-quote p {
-                               margin: 0;
-                           }
-                           </style>""", unsafe_allow_html=True)
             for i, quote in enumerate(character["quotes"]):
                 st.markdown(f'<div class="custom-quote"><p>"{quote}"</p></div>', unsafe_allow_html=True)
         else:
@@ -98,34 +105,16 @@ def display_character_info(character):
     with st.container():
         st.subheader("🗺️ First Appearance Context")
         st.markdown(character["first_appearance_context"])
-    st.divider() # Added divider for consistency before new section
+    st.divider()
 
-    # Section for Associated Themes
     with st.container():
         st.subheader("🎨 Associated Themes")
-        if character.get("associated_themes") and character["associated_themes"]: # Check if key exists and list is not empty
-            # Define CSS for theme-badge styling
-            st.markdown("""<style>
-                           .theme-badge {
-                               background-color: #f0e6ff; /* Light purple background */
-                               border-radius: 5px;
-                               padding: 0.2em 0.6em;
-                               margin: 0.2em 0.3em;
-                               display: inline-block;
-                               font-weight: normal;
-                               border: 1px solid #d1c4e9; /* Purple border */
-                               transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-                           }
-                           .theme-badge:hover {
-                               transform: scale(1.05);
-                               box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-                           }
-                           </style>""", unsafe_allow_html=True)
+        if character.get("associated_themes") and character["associated_themes"]:
             themes_html = "".join([f'<span class="theme-badge">{theme_name}</span>' for theme_name in character["associated_themes"]])
             st.markdown(themes_html, unsafe_allow_html=True)
         else:
             st.markdown("No specific themes strongly associated with this character.")
-    st.divider() # Divider after the new section
+    st.divider()
 
 def display_theme_info(theme):
     """
@@ -201,10 +190,11 @@ explorer_mode = st.sidebar.radio(
 )
 
 # Add a banner image
-st.image("https://via.placeholder.com/800x200/007bff/FFFFFF?Text=Catcher+In+The+Rye+Banner", use_column_width=True)
+st.image("https://images.pexels.com/photos/1631677/pexels-photo-1631677.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", use_column_width=True)
 
 # Set the main title of the dashboard
-st.title("The Catcher in the Rye: Interactive Explorer") # Updated title
+st.markdown("<h1 style='text-align: center; color: #5D4037;'>The Catcher in the Rye: An Interactive Explorer</h1>", unsafe_allow_html=True)
+
 
 # Introductory text for the dashboard
 intro_col1, intro_col2 = st.columns([3, 1]) # Give more space to text
