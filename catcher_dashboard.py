@@ -25,215 +25,269 @@ def local_css():
         @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=Lato:wght@300;400;700;900&display=swap');
 
         :root {
-            /* Color Palette - Refined */
-            --primary-color: #8B0000;
+            /* --- Ultrathink Palette --- */
+            --primary-color: #8B0000;       /* Deep Red */
+            --primary-light: #A52A2A;
             --primary-dark: #600000;
-            --secondary-color: #556B2F;
-            --accent-blue: #4682B4;
-            --bg-paper: #FDFBF7;
-            --text-main: #2C2C2C;
+            --secondary-color: #556B2F;     /* Olive Green */
+            --accent-gold: #D4AF37;         /* Classic Gold */
+            --accent-blue: #4682B4;         /* Steel Blue */
+
+            --bg-paper: #FDFBF7;            /* Warm Paper */
+            --surface-white: #FFFFFF;
+            --surface-glass: rgba(255, 255, 255, 0.75);
+
+            --text-main: #1A1A1A;           /* Near Black */
             --text-muted: #555555;
-            --card-bg: #FFFFFF;
+            --text-light: #888888;
 
-            /* Shadows */
-            --shadow-sm: 0 2px 4px rgba(44, 44, 44, 0.05);
-            --shadow-md: 0 8px 16px rgba(44, 44, 44, 0.08);
-            --shadow-lg: 0 16px 32px rgba(44, 44, 44, 0.12);
+            /* --- Spacing System --- */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 32px;
+            --space-xl: 64px;
 
-            /* Spacing */
+            /* --- Radius --- */
             --radius-sm: 8px;
             --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-pill: 999px;
+
+            /* --- Shadows (Layered for Depth) --- */
+            --shadow-subtle: 0 2px 4px rgba(0, 0, 0, 0.03);
+            --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+            --shadow-float: 0 12px 24px rgba(139, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
+            --shadow-inner: inset 0 2px 4px rgba(0,0,0,0.02);
+
+            /* --- Transitions --- */
+            --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        /* Base Styles */
+        /* --- Global Reset & Base --- */
         .stApp {
             background-color: var(--bg-paper);
-            /* Subtle noise texture for paper feel */
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
             font-family: 'Lato', sans-serif;
             color: var(--text-main);
         }
 
+        /* Typography */
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Merriweather', serif;
             color: var(--primary-color) !important;
-            margin-bottom: 0.75rem;
-            line-height: 1.3;
+            margin-bottom: var(--space-md);
+            line-height: 1.25;
         }
 
-        h1 { font-size: clamp(2rem, 5vw, 3.5rem) !important; font-weight: 900 !important; letter-spacing: -0.02em; }
-        h2 { font-size: clamp(1.5rem, 4vw, 2.5rem) !important; font-weight: 700 !important; }
-        h3 { font-size: clamp(1.2rem, 3vw, 1.8rem) !important; }
+        h1 { font-weight: 900 !important; letter-spacing: -0.03em; }
+        h2 { font-weight: 700 !important; letter-spacing: -0.01em; }
 
-        p, li, span, div {
+        p {
             line-height: 1.7;
-            color: var(--text-main);
+            margin-bottom: var(--space-md);
         }
 
-        /* Cards */
+        /* --- Components --- */
+
+        /* Card Container */
         .card-container {
-            background: var(--card-bg);
-            padding: 2rem;
+            background: var(--surface-white);
             border-radius: var(--radius-md);
-            box-shadow: var(--shadow-sm);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-card);
             border: 1px solid rgba(139, 0, 0, 0.05);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
+            transition: all 0.4s var(--ease-out-quart);
             position: relative;
             overflow: hidden;
-        }
-
-        .card-container:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            border-color: rgba(139, 0, 0, 0.15);
-        }
-
-        /* Avatar styling */
-        .avatar-img {
-            border-radius: 50%;
-            border: 4px solid #fff;
-            box-shadow: var(--shadow-md);
-            transition: transform 0.4s ease;
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            margin-bottom: 15px;
-        }
-
-        .card-container:hover .avatar-img {
-            transform: scale(1.08) rotate(3deg);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         /* Glass Panel */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border-radius: var(--radius-md);
-            padding: 2.5rem;
-            box-shadow: var(--shadow-md);
+            background: var(--surface-glass);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            box-shadow: var(--shadow-card);
             border: 1px solid rgba(255, 255, 255, 0.6);
         }
 
-        /* Buttons (Streamlit Overrides) */
-        div.stButton > button {
-            border: none;
-            background: white;
-            color: var(--text-main);
-            box-shadow: var(--shadow-sm);
-            border-radius: 12px;
-            padding: 0.6rem 1.2rem;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
+        /* Avatars */
+        .avatar-img {
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.5s var(--ease-out-quart);
+            object-fit: cover;
         }
 
-        div.stButton > button:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
-            color: var(--primary-color);
-            border-color: rgba(139,0,0,0.1);
-        }
-
-        div.stButton > button:active {
-            transform: translateY(0);
-        }
-
-        /* Badges */
+        /* Badges/Tags */
         .badge {
             background-color: var(--secondary-color);
             color: white;
-            padding: 0.4em 0.8em;
-            border-radius: 50px;
-            font-size: 0.85em;
-            font-weight: 600;
-            box-shadow: var(--shadow-sm);
+            padding: 0.35em 0.85em;
+            border-radius: var(--radius-pill);
+            font-size: 0.8em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: var(--shadow-subtle);
             display: inline-block;
-            margin: 3px;
-            transition: all 0.2s;
+            margin: 2px;
+            transition: transform 0.2s ease;
         }
-
-        .badge:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
         .badge.theme { background-color: var(--accent-blue); }
 
         /* Quote Box */
         .quote-box {
             position: relative;
-            background: #fff;
+            background: var(--surface-white);
             padding: 2rem;
-            padding-left: 3rem;
+            padding-left: 3.5rem;
             border-radius: var(--radius-sm);
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-subtle);
             font-family: 'Merriweather', serif;
             font-style: italic;
             color: var(--text-muted);
             border-left: 4px solid var(--primary-color);
             margin: 1.5rem 0;
+            transition: transform 0.3s ease;
         }
-
         .quote-box::before {
             content: "“";
-            font-size: 4rem;
-            color: rgba(139, 0, 0, 0.1);
+            font-size: 5rem;
+            color: rgba(139, 0, 0, 0.08);
             position: absolute;
-            top: 0px;
+            top: -10px;
             left: 10px;
+            font-family: serif;
         }
 
-        /* Sidebar Customization */
+        /* Streamlit Button Overrides */
+        div.stButton > button {
+            border: 1px solid rgba(139,0,0,0.1);
+            background: white;
+            color: var(--text-main);
+            box-shadow: var(--shadow-subtle);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            font-family: 'Lato', sans-serif;
+            transition: all 0.3s var(--ease-out-quart);
+        }
+
+        /* Sidebar */
         section[data-testid="stSidebar"] {
             background-color: #F8F4E6;
-            border-right: 1px solid rgba(0,0,0,0.05);
-        }
-
-        /* Utility Classes */
-        .hero-title {
-            /* Now handled by general h1 */
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            font-weight: 300;
-            color: #555;
-            margin-bottom: 30px;
+            border-right: 1px solid rgba(139,0,0,0.05);
         }
 
         /* Animations */
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translate3d(0, 20px, 0); }
+            from { opacity: 0; transform: translate3d(0, 30px, 0); }
             to { opacity: 1; transform: translate3d(0, 0, 0); }
         }
-
         .animate-enter {
-            animation: fadeInUp 0.6s ease-out forwards;
+            animation: fadeInUp 0.8s var(--ease-out-quart) forwards;
+            opacity: 0; /* Start hidden */
         }
 
-        /* Mobile Optimizations */
+        /* --- MOBILE HYPER-OPTIMIZATION (< 768px) --- */
         @media (max-width: 768px) {
-            .stApp { padding-top: 1rem; }
-            .card-container { padding: 1.5rem; }
-            .glass-panel { padding: 1.5rem; }
+            /* Typography Scale */
+            h1 { font-size: 2.2rem !important; margin-bottom: 1rem; }
+            h2 { font-size: 1.75rem !important; }
+            h3 { font-size: 1.35rem !important; }
 
-            /* Full width buttons on mobile */
+            /* Spacing */
+            .stApp { padding-top: 0.5rem; }
+            .block-container { padding-left: 1rem !important; padding-right: 1rem !important; }
+
+            /* Components */
+            .card-container {
+                padding: 1.25rem;
+                margin-bottom: 1rem;
+                border-radius: var(--radius-md);
+                box-shadow: var(--shadow-subtle); /* Flatter on mobile for performance/cleanliness */
+            }
+
+            .glass-panel {
+                padding: 1.25rem;
+                backdrop-filter: blur(12px); /* Slightly less blur for perf */
+            }
+
+            /* Touch Targets */
             div.stButton > button {
                 width: 100%;
-                min-height: 48px; /* Touch target */
+                min-height: 52px; /* Large safe touch target */
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
             }
 
+            /* Avatars */
             .avatar-img {
-                width: 90px;
-                height: 90px;
+                width: 100px;
+                height: 100px;
+                margin-bottom: 10px;
+            }
+
+            /* Navigation/Layout */
+            /* Force single column behavior where needed via CSS if logic doesn't catch it */
+            [data-testid="column"] {
+                width: 100% !important;
+                flex: 1 1 auto !important;
+                min-width: 100% !important;
             }
         }
 
-        /* Desktop Optimizations */
-        @media (min-width: 1200px) {
+        /* --- DESKTOP HYPER-OPTIMIZATION (> 1024px) --- */
+        @media (min-width: 1024px) {
+            /* Max width for readability */
             .block-container {
-                max-width: 1100px;
-                padding-top: 3rem;
+                max-width: 1000px;
+                padding-top: 4rem;
+                padding-bottom: 5rem;
             }
+
+            /* Hover Effects - Only on desktop */
+            .card-container:hover {
+                transform: translateY(-8px) scale(1.01);
+                box-shadow: var(--shadow-float);
+                border-color: rgba(139, 0, 0, 0.2);
+            }
+
+            .avatar-img:hover {
+                transform: scale(1.1) rotate(2deg);
+                box-shadow: var(--shadow-float);
+            }
+
+            div.stButton > button:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-card);
+                color: var(--primary-color);
+                border-color: var(--primary-color);
+                background-color: #FFFAFA;
+            }
+
+            .quote-box:hover {
+                transform: translateX(5px);
+                border-left-width: 8px;
+            }
+
+            .badge:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-card);
+                cursor: default;
+            }
+
+            /* Typography Scale */
+            h1 { font-size: 3.5rem !important; }
+            h2 { font-size: 2.5rem !important; }
+            h3 { font-size: 1.75rem !important; }
         }
 
     </style>
@@ -264,48 +318,58 @@ def select_theme(theme):
 # --- Views ---
 
 def show_home():
-    # Hero Section with Animation
+    # Hero Section
     st.markdown("""
-    <div class="animate-enter" style='text-align: center; padding: 4rem 0;'>
+    <div class="animate-enter" style='text-align: center; padding: 6vh 0 4vh 0;'>
         <h1>The Catcher in the Rye</h1>
-        <h3 class="hero-subtitle">An Interactive Explorer into Holden's World</h3>
-        <div style='width: 80px; height: 6px; background-color: var(--primary-color); margin: 0 auto 2rem auto; border-radius: 4px;'></div>
+        <p style="font-size: 1.25rem; color: var(--text-muted); font-weight: 300; max-width: 600px; margin: 0 auto;">
+            An interactive exploration into the mind of Holden Caulfield and the world he rejects.
+        </p>
+        <div style='width: 60px; height: 4px; background-color: var(--primary-color); margin: 2rem auto; border-radius: 4px; opacity: 0.6;'></div>
     </div>
     """, unsafe_allow_html=True)
 
-    # Introduction
-    c1, c2 = st.columns([1, 1], gap="large")
+    # Featured Content
+    c1, c2 = st.columns([1.2, 0.8], gap="large")
+
     with c1:
         st.markdown("""
         <div class="glass-panel animate-enter" style="height: 100%; display: flex; flex-direction: column; justify-content: center; animation-delay: 0.1s;">
-            <p style='font-size: 1.25em; margin-bottom: 1.5rem; font-family: Merriweather, serif; font-style: italic; border-left: 3px solid var(--primary-color); padding-left: 1rem;'>
-                "If you really want to hear about it, the first thing you'll probably want to know is where I was born, and what my lousy childhood was like..."
+            <p style='font-size: 1.5em; margin-bottom: 2rem; font-family: Merriweather, serif; font-style: italic; color: var(--primary-color);'>
+                "If you really want to hear about it..."
             </p>
-            <p>
-                Dive into the complex mind of Holden Caulfield. Explore the characters who shaped his journey and the recurring themes that define J.D. Salinger's masterpiece.
+            <p style='font-size: 1.1em; color: var(--text-main); margin-bottom: 1.5rem;'>
+                J.D. Salinger’s masterpiece is more than just a story of teenage angst. It’s a profound look at grief, innocence, and the struggle to find authenticity in a "phony" world.
+            </p>
+            <p style='font-size: 1em; color: var(--text-muted);'>
+                Use this dashboard to dissect the complex relationships and recurring motifs that define Holden's journey.
             </p>
         </div>
         """, unsafe_allow_html=True)
 
     with c2:
+        # Decorative Image with polished styling
         st.markdown("""
-        <div class="animate-enter" style="border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-md); height: 100%; animation-delay: 0.2s;">
+        <div class="animate-enter" style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-float); height: 100%; min-height: 300px; animation-delay: 0.2s; position: relative;">
+            <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.2)); z-index: 1;"></div>
             <img src="https://images.pexels.com/photos/1631677/pexels-photo-1631677.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                  style="width: 100%; height: 100%; object-fit: cover; display: block;" alt="Rye Field">
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<div style='height: 4rem;'></div>", unsafe_allow_html=True) # Spacer
+    st.markdown("<div style='height: 4rem;'></div>", unsafe_allow_html=True)
 
-    st.markdown("<h3 class='animate-enter' style='text-align: center; margin-bottom: 2rem; animation-delay: 0.3s;'>Start Your Journey</h3>", unsafe_allow_html=True)
+    # Navigation Cards
+    st.markdown("<h3 class='animate-enter' style='text-align: center; margin-bottom: 3rem; animation-delay: 0.3s;'>Begin Exploration</h3>", unsafe_allow_html=True)
+
     col1, col2 = st.columns(2, gap="medium")
 
     with col1:
         st.markdown("""
-        <div class="card-container animate-enter" style="align-items: flex-start; text-align: left; min-height: 220px; animation-delay: 0.4s;">
-            <div style="font-size: 3.5rem; margin-bottom: 1rem;">🎭</div>
-            <h3>Characters</h3>
-            <p>Unpack the psyche of Holden, Phoebe, Allie, and others. Discover their hidden motivations and relationships.</p>
+        <div class="card-container animate-enter" style="animation-delay: 0.4s;">
+            <div style="font-size: 3rem; margin-bottom: 1.5rem; background: var(--bg-paper); width: fit-content; padding: 10px; border-radius: 50%;">🎭</div>
+            <h2 style="font-size: 1.8rem !important;">Characters</h2>
+            <p>Meet the cast of Pencey Prep and New York. Discover the people who confuse, anger, and occasionally comfort Holden.</p>
         </div>
         """, unsafe_allow_html=True)
         if st.button("Explore Characters", use_container_width=True):
@@ -313,10 +377,10 @@ def show_home():
 
     with col2:
         st.markdown("""
-        <div class="card-container animate-enter" style="align-items: flex-start; text-align: left; min-height: 220px; animation-delay: 0.5s;">
-            <div style="font-size: 3.5rem; margin-bottom: 1rem;">📚</div>
-            <h3>Themes</h3>
-            <p>Analyze the core motifs: The pain of growing up, the search for identity, and the pervasive nature of phoniness.</p>
+        <div class="card-container animate-enter" style="animation-delay: 0.5s;">
+            <div style="font-size: 3rem; margin-bottom: 1.5rem; background: var(--bg-paper); width: fit-content; padding: 10px; border-radius: 50%;">📚</div>
+            <h2 style="font-size: 1.8rem !important;">Themes</h2>
+            <p>Analyze the deeper meanings: The preservation of innocence, the pain of growing up, and the isolation of the individual.</p>
         </div>
         """, unsafe_allow_html=True)
         if st.button("Explore Themes", use_container_width=True):
@@ -324,40 +388,44 @@ def show_home():
 
 def show_characters_grid():
     st.markdown("""
-    <div class="animate-enter" style='text-align: center; margin-bottom: 3rem;'>
+    <div class="animate-enter" style='text-align: center; margin-bottom: 4rem; padding-top: 2rem;'>
         <h1>Meet the Characters</h1>
-        <p class='hero-subtitle'>The voices of Pencey Prep and New York</p>
+        <p style='font-size: 1.2rem; color: var(--text-muted);'>The voices of Pencey Prep and New York</p>
     </div>
     """, unsafe_allow_html=True)
 
-    # Responsive Grid: 4 columns on desktop
+    # Responsive Grid: 4 columns on desktop, auto-stack on mobile via CSS
     cols = st.columns(4)
     for i, char in enumerate(characters_data):
         with cols[i % 4]:
-            delay = (i * 0.05) % 0.5 # Staggered animation
+            delay = (i * 0.05) % 0.5
+            # Card content
             st.markdown(f"""
-            <div class="card-container animate-enter" style="align-items: center; text-align: center; padding-top: 2rem; animation-delay: {delay}s;">
+            <div class="card-container animate-enter" style="align-items: center; text-align: center; padding-top: 3rem; animation-delay: {delay}s;">
                 <img src="{char['image_url']}" class="avatar-img" alt="{char['name']}">
-                <h4 style="margin-top: 1rem; margin-bottom: 0.5rem;">{char['name']}</h4>
-                <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.4;">{char['traits'][0] if char['traits'] else ''}</p>
+                <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1.3rem !important;">{char['name']}</h3>
+                <p style="font-size: 0.9rem; color: var(--text-light); line-height: 1.4; margin-bottom: 1.5rem;">{char['traits'][0] if char['traits'] else ''}</p>
             </div>
             """, unsafe_allow_html=True)
+            # Button (separated from markdown to function correctly)
             if st.button(f"View Profile", key=f"btn_{char['name']}", use_container_width=True):
                 select_char(char)
 
 def show_character_detail(char):
-    st.markdown("<div style='margin-bottom: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
     if st.button("← Back to Characters", key="back_char"):
         navigate_to("Characters")
 
-    # Enhanced Header with Glassmorphism
+    # Header
     st.markdown(f"""
-    <div class="glass-panel animate-enter" style="display: flex; flex-wrap: wrap; align-items: center; gap: 2rem; margin-bottom: 2rem;">
-        <img src="{char['image_url']}" class="avatar-img" style='width: 160px; height: 160px; margin: 0;'>
-        <div style="flex: 1; min-width: 280px;">
-            <h1 style='margin: 0;'>{char['name']}</h1>
-            <p style='font-style: italic; font-size: 1.1em; color: var(--text-muted); margin-top: 10px; border-left: 3px solid var(--primary-color); padding-left: 15px;'>{char['significance']}</p>
-            <div style="margin-top: 15px;">
+    <div class="glass-panel animate-enter" style="display: flex; flex-wrap: wrap; align-items: center; gap: 3rem; margin-bottom: 3rem; margin-top: 1rem;">
+        <img src="{char['image_url']}" class="avatar-img" style='width: 180px; height: 180px; margin: 0;'>
+        <div style="flex: 1; min-width: 300px;">
+            <h1 style='margin-bottom: 0.5rem;'>{char['name']}</h1>
+            <p style='font-family: Merriweather, serif; font-style: italic; font-size: 1.15em; color: var(--text-muted); margin-bottom: 1.5rem; border-left: 4px solid var(--primary-color); padding-left: 20px;'>
+                {char['significance']}
+            </p>
+            <div>
                 {' '.join([f"<span class='badge'>{t}</span>" for t in char['traits']])}
             </div>
         </div>
@@ -368,28 +436,33 @@ def show_character_detail(char):
     tab1, tab2, tab3, tab4 = st.tabs(["📖 Overview", "🤝 Relationships", "💬 Quotes", "🎨 Themes"])
 
     with tab1:
+        st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
         st.markdown("### First Appearance")
         st.markdown(f"""
-        <div class="animate-enter" style='background-color: #fff; padding: 2rem; border-radius: var(--radius-md); border-left: 5px solid var(--secondary-color); box-shadow: var(--shadow-sm); font-size: 1.1em; animation-delay: 0.1s;'>
-            {char['first_appearance_context']}
+        <div class="card-container animate-enter" style="border-left: 6px solid var(--secondary-color); animation-delay: 0.1s;">
+            <p style="font-size: 1.1rem;">{char['first_appearance_context']}</p>
         </div>
         """, unsafe_allow_html=True)
 
     with tab2:
+        st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
         st.markdown("### Connections")
         if char['relationships']:
             for i, (name, desc) in enumerate(char['relationships'].items()):
                 delay = (i * 0.05) % 0.5
                 st.markdown(f"""
-                <div class="animate-enter" style="background: white; padding: 1.5rem; border-radius: var(--radius-sm); margin-bottom: 1rem; box-shadow: var(--shadow-sm); animation-delay: {delay}s;">
-                    <strong style="color: var(--primary-color); font-size: 1.2em;">{name}</strong>
-                    <p style="margin-top: 0.5rem; color: var(--text-main);">{desc}</p>
+                <div class="card-container animate-enter" style="margin-bottom: 1rem; padding: 1.5rem; animation-delay: {delay}s; flex-direction: row; align-items: flex-start; gap: 1rem;">
+                    <div style="flex: 1;">
+                        <strong style="color: var(--primary-color); font-size: 1.1em; display: block; margin-bottom: 0.25rem;">{name}</strong>
+                        <span style="color: var(--text-main); font-size: 0.95em;">{desc}</span>
+                    </div>
                 </div>
                 """, unsafe_allow_html=True)
         else:
             st.info("No specific relationships noted.")
 
     with tab3:
+        st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
         st.markdown("### Memorable Quotes")
         if char['quotes']:
             for i, q in enumerate(char['quotes']):
@@ -399,17 +472,25 @@ def show_character_detail(char):
             st.info("No quotes available.")
 
     with tab4:
+        st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
         st.markdown("### Thematic Resonance")
         if char['associated_themes']:
-            st.markdown(" ".join([f"<span class='badge theme' style='font-size: 1em; padding: 10px 15px;'>{t}</span>" for t in char['associated_themes']]), unsafe_allow_html=True)
+            st.markdown("""
+            <div class="card-container animate-enter" style="animation-delay: 0.1s;">
+                <p style="margin-bottom: 1rem;">Key themes associated with {}:</p>
+                <div>
+                    {}
+                </div>
+            </div>
+            """.format(char['name'], " ".join([f"<span class='badge theme' style='font-size: 1rem; padding: 12px 20px; margin: 6px;'>{t}</span>" for t in char['associated_themes']])), unsafe_allow_html=True)
         else:
             st.info("No themes associated.")
 
 def show_themes_grid():
     st.markdown("""
-    <div class="animate-enter" style='text-align: center; margin-bottom: 3rem;'>
+    <div class="animate-enter" style='text-align: center; margin-bottom: 4rem; padding-top: 2rem;'>
         <h1>Literary Themes</h1>
-        <p class='hero-subtitle'>The Deeper Meanings</p>
+        <p style='font-size: 1.2rem; color: var(--text-muted);'>The deeper meanings behind the story</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -418,32 +499,32 @@ def show_themes_grid():
         with cols[i % 3]:
             delay = (i * 0.1) % 0.5
             st.markdown(f"""
-            <div class="card-container animate-enter" style="justify-content: flex-start; text-align: left; padding: 2.5rem; animation-delay: {delay}s;">
-                <h3 style='margin-bottom: 1rem; color: var(--primary-color); border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 0.5rem; width: 100%;'>{theme['name']}</h3>
-                <p style='font-size: 1rem; color: var(--text-muted);'>{theme['description'][:140]}...</p>
+            <div class="card-container animate-enter" style="justify-content: flex-start; text-align: left; padding: 2rem; animation-delay: {delay}s;">
+                <h3 style='margin-bottom: 1rem; color: var(--primary-color); border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem; width: 100%; font-size: 1.5rem !important;'>{theme['name']}</h3>
+                <p style='font-size: 1rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 2rem;'>{theme['description'][:140]}...</p>
             </div>
             """, unsafe_allow_html=True)
+            # Button (outside card container for proper click)
             if st.button(f"Explore Theme", key=f"btn_{theme['name']}", use_container_width=True):
                 select_theme(theme)
 
 def show_theme_detail(theme):
-    st.markdown("<div style='margin-bottom: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
     if st.button("← Back to Themes", key="back_theme"):
         navigate_to("Themes")
 
     # Header
     st.markdown(f"""
-    <div class="glass-panel animate-enter" style="margin-bottom: 2rem; border-left: 6px solid var(--primary-color);">
+    <div class="glass-panel animate-enter" style="margin-bottom: 3rem; margin-top: 1rem; border-left: 6px solid var(--primary-color);">
         <h1 style='margin-bottom: 1rem;'>{theme['name']}</h1>
-        <p style='font-size: 1.2em; line-height: 1.8; color: var(--text-main); font-family: Lato, sans-serif;'>{theme['description']}</p>
+        <p style='font-size: 1.25em; line-height: 1.8; color: var(--text-main); font-weight: 300;'>{theme['description']}</p>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
-
-    c1, c2 = st.columns([1, 1], gap="large")
+    # Content Grid
+    c1, c2 = st.columns([1.2, 0.8], gap="large")
     with c1:
-        st.markdown("<h3 style='margin-bottom: 1rem;'>Illustrative Quotes</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='margin-bottom: 1.5rem;'>Illustrative Quotes</h3>", unsafe_allow_html=True)
         if theme['related_quotes']:
             for i, q in enumerate(theme['related_quotes']):
                 delay = (i * 0.1) % 0.5
@@ -452,13 +533,17 @@ def show_theme_detail(theme):
             st.info("No quotes available.")
 
     with c2:
-        st.markdown("<h3 style='margin-bottom: 1rem;'>Key Characters</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='margin-bottom: 1.5rem;'>Key Characters</h3>", unsafe_allow_html=True)
         st.markdown("""
-        <div class="animate-enter" style="background: white; padding: 2rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); animation-delay: 0.2s;">
-            <p style="margin-bottom: 1rem; color: var(--text-muted);">These characters embody or grapple with the theme of <strong>{}</strong>:</p>
-            {}
+        <div class="card-container animate-enter" style="animation-delay: 0.2s;">
+            <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-size: 1.05rem;">
+                Characters who grapple with <strong>{}</strong>:
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                {}
+            </div>
         </div>
-        """.format(theme['name'], " ".join([f"<span class='badge' style='font-size: 1em; padding: 8px 12px; margin: 4px;'>{char}</span>" for char in theme['characters_associated']])), unsafe_allow_html=True)
+        """.format(theme['name'], "".join([f"<span class='badge' style='font-size: 0.95em; padding: 8px 14px;'>{char}</span>" for char in theme['characters_associated']])), unsafe_allow_html=True)
 
 # --- Main Application Execution ---
 
