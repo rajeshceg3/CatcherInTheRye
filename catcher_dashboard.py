@@ -1,6 +1,7 @@
 import streamlit as st
 from characters import characters_data
 from themes import themes_data
+from tour import TourManager
 
 # --- Page Config ---
 st.set_page_config(
@@ -290,6 +291,51 @@ def local_css():
             h3 { font-size: 1.75rem !important; }
         }
 
+        /* --- TOUR COMPONENT STYLES --- */
+
+        /* The container targeting strategy: Find the vertical block containing our marker */
+        div[data-testid="stVerticalBlock"]:has(.tour-marker),
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.tour-marker) > div[data-testid="stVerticalBlock"] {
+            position: fixed !important;
+            bottom: 3rem;
+            right: 3rem;
+            width: 420px;
+            z-index: 999999;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: 0 24px 48px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.8) inset;
+            border: 1px solid rgba(139, 0, 0, 0.1);
+            animation: slideInUp 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+        }
+
+        /* Mobile Tour Card */
+        @media (max-width: 768px) {
+            div[data-testid="stVerticalBlock"]:has(.tour-marker),
+            div[data-testid="stVerticalBlockBorderWrapper"]:has(.tour-marker) > div[data-testid="stVerticalBlock"] {
+                bottom: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                border-radius: 24px 24px 0 0;
+                padding: 1.5rem;
+                padding-bottom: 2rem; /* Safe area */
+                animation: slideInUpMobile 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+            }
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translate3d(0, 40px, 0) scale(0.95); }
+            to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+        }
+
+        @keyframes slideInUpMobile {
+            from { opacity: 0; transform: translate3d(0, 100%, 0); }
+            to { opacity: 1; transform: translate3d(0, 0, 0); }
+        }
+
     </style>
     """, unsafe_allow_html=True)
 
@@ -559,6 +605,9 @@ with st.sidebar:
     if st.button("📚 Theme Explorer", use_container_width=True):
         navigate_to("Themes")
 
+    if st.button("🏳️ Start Guided Tour", use_container_width=True, type="primary"):
+        TourManager.start_tour()
+
     st.divider()
     st.caption("The Catcher in the Rye Explorer")
     st.caption("v2.0 • Ultrathink UX")
@@ -580,3 +629,6 @@ elif st.session_state.page == 'Theme Detail':
         show_theme_detail(st.session_state.selected_theme)
     else:
         navigate_to("Themes")
+
+# --- Guided Tour Overlay ---
+TourManager.render_tour()
