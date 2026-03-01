@@ -1,4 +1,5 @@
 import streamlit as st
+import graphviz
 from characters import characters_data
 from themes import themes_data
 from tour import TourManager
@@ -591,6 +592,41 @@ def show_theme_detail(theme):
         </div>
         """.format(theme['name'], "".join([f"<span class='badge' style='font-size: 0.95em; padding: 8px 14px;'>{char}</span>" for char in theme['characters_associated']])), unsafe_allow_html=True)
 
+
+def show_character_network():
+    st.markdown("""
+    <div class="animate-enter" style='text-align: center; margin-bottom: 4rem; padding-top: 2rem;'>
+        <h1>Character Network</h1>
+        <p style='font-size: 1.2rem; color: var(--text-muted);'>A visual map of connections in Holden's world</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    graph = graphviz.Digraph(engine='neato')
+    graph.attr(bgcolor='transparent')
+    graph.attr('node', shape='circle', style='filled', fillcolor='#FDFBF7', color='#8B0000', fontname='Lato', fontcolor='#1A1A1A', penwidth='2')
+    graph.attr('edge', color='#A52A2A', penwidth='1.5')
+
+    # Add all nodes first
+    for char in characters_data:
+        graph.node(char['name'])
+
+    # Add edges
+    for char in characters_data:
+        if 'relationships' in char:
+            for rel_name in char['relationships']:
+                # only add edge if rel_name is in our characters to avoid dangling nodes
+                if any(c['name'] == rel_name for c in characters_data):
+                    graph.edge(char['name'], rel_name)
+
+    st.markdown("""
+    <div class="card-container animate-enter" style="align-items: center; justify-content: center; overflow: hidden; animation-delay: 0.1s;">
+    """, unsafe_allow_html=True)
+    st.graphviz_chart(graph, use_container_width=True)
+    st.markdown("""
+        <p style='margin-top: 1rem; color: var(--text-light); font-size: 0.9em; text-align: center;'>Arrows indicate a relationship or interaction originating from the character.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
 # --- Main Application Execution ---
 
 local_css()
@@ -602,6 +638,8 @@ with st.sidebar:
         navigate_to("Home")
     if st.button("🎭 Character Explorer", use_container_width=True):
         navigate_to("Characters")
+    if st.button("🕸️ Character Network", use_container_width=True):
+        navigate_to("Character Network")
     if st.button("📚 Theme Explorer", use_container_width=True):
         navigate_to("Themes")
 
@@ -622,6 +660,8 @@ elif st.session_state.page == 'Character Detail':
         show_character_detail(st.session_state.selected_char)
     else:
         navigate_to("Characters")
+elif st.session_state.page == 'Character Network':
+    show_character_network()
 elif st.session_state.page == 'Themes':
     show_themes_grid()
 elif st.session_state.page == 'Theme Detail':

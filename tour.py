@@ -31,6 +31,11 @@ TOUR_STEPS = [
         "target_char": "Holden Caulfield"
     },
     {
+        "title": "Character Network",
+        "content": "To see how Holden's world is connected, explore the Character Network. It provides a visual map of the relationships and interactions originating from each character.",
+        "target_page": "Character Network"
+    },
+    {
         "title": "Themes Explorer",
         "content": "Finally, the Themes explorer. Here we analyze the deeper meanings—Phoniness, Innocence, Grief. Click any theme to see how it connects back to the characters.",
         "target_page": "Themes"
