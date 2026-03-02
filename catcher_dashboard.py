@@ -82,8 +82,9 @@ def local_css():
             line-height: 1.25;
         }
 
-        h1 { font-weight: 900 !important; letter-spacing: -0.03em; }
-        h2 { font-weight: 700 !important; letter-spacing: -0.01em; }
+        h1 { font-weight: 900 !important; letter-spacing: -0.03em; font-size: clamp(2.2rem, 5vw, 3.5rem) !important; }
+        h2 { font-weight: 700 !important; letter-spacing: -0.01em; font-size: clamp(1.75rem, 4vw, 2.5rem) !important; }
+        h3 { font-size: clamp(1.35rem, 3vw, 1.75rem) !important; }
 
         p {
             line-height: 1.7;
@@ -157,7 +158,7 @@ def local_css():
             color: var(--text-muted);
             border-left: 4px solid var(--primary-color);
             margin: 1.5rem 0;
-            transition: transform 0.3s ease;
+            transition: all 0.3s var(--ease-out-quart);
         }
         .quote-box::before {
             content: "“";
@@ -200,10 +201,7 @@ def local_css():
 
         /* --- MOBILE HYPER-OPTIMIZATION (< 768px) --- */
         @media (max-width: 768px) {
-            /* Typography Scale */
-            h1 { font-size: 2.2rem !important; margin-bottom: 1rem; }
-            h2 { font-size: 1.75rem !important; }
-            h3 { font-size: 1.35rem !important; }
+            h1 { margin-bottom: 1rem; }
 
             /* Spacing */
             .stApp { padding-top: 0.5rem; }
@@ -276,8 +274,10 @@ def local_css():
             }
 
             .quote-box:hover {
-                transform: translateX(5px);
-                border-left-width: 8px;
+                transform: translateX(8px);
+                border-left-color: var(--accent-gold);
+                color: var(--text-main);
+                box-shadow: var(--shadow-card);
             }
 
             .badge:hover {
@@ -285,11 +285,6 @@ def local_css():
                 box-shadow: var(--shadow-card);
                 cursor: default;
             }
-
-            /* Typography Scale */
-            h1 { font-size: 3.5rem !important; }
-            h2 { font-size: 2.5rem !important; }
-            h3 { font-size: 1.75rem !important; }
         }
 
         /* --- TOUR COMPONENT STYLES --- */
@@ -343,10 +338,13 @@ def local_css():
 # --- State Management ---
 if 'page' not in st.session_state:
     st.session_state.page = 'Home'
+    st.session_state.home_visited = False
 if 'selected_char' not in st.session_state:
     st.session_state.selected_char = None
 if 'selected_theme' not in st.session_state:
     st.session_state.selected_theme = None
+if 'network_visited' not in st.session_state:
+    st.session_state.network_visited = False
 
 def navigate_to(page):
     st.session_state.page = page
@@ -365,6 +363,10 @@ def select_theme(theme):
 # --- Views ---
 
 def show_home():
+    if not st.session_state.get('home_visited'):
+        st.toast("Welcome to the Catcher in the Rye Explorer! 🧭", icon="👋")
+        st.session_state.home_visited = True
+
     # Hero Section
     st.markdown("""
     <div class="animate-enter" style='text-align: center; padding: 6vh 0 4vh 0;'>
@@ -594,6 +596,10 @@ def show_theme_detail(theme):
 
 
 def show_character_network():
+    if not st.session_state.get('network_visited'):
+        st.toast("Hover over character nodes and links to explore their relationships.", icon="🕸️")
+        st.session_state.network_visited = True
+
     st.markdown("""
     <div class="animate-enter" style='text-align: center; margin-bottom: 4rem; padding-top: 2rem;'>
         <h1>Character Network</h1>
@@ -608,15 +614,16 @@ def show_character_network():
 
     # Add all nodes first
     for char in characters_data:
-        graph.node(char['name'])
+        tooltip_text = f"{char['name']}: {char['significance']}"
+        graph.node(char['name'], tooltip=tooltip_text)
 
     # Add edges
     for char in characters_data:
         if 'relationships' in char:
-            for rel_name in char['relationships']:
+            for rel_name, rel_desc in char['relationships'].items():
                 # only add edge if rel_name is in our characters to avoid dangling nodes
                 if any(c['name'] == rel_name for c in characters_data):
-                    graph.edge(char['name'], rel_name)
+                    graph.edge(char['name'], rel_name, tooltip=rel_desc)
 
     st.markdown("""
     <div class="card-container animate-enter" style="align-items: center; justify-content: center; overflow: hidden; animation-delay: 0.1s;">
