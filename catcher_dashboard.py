@@ -12,6 +12,8 @@ st.set_page_config(
     initial_sidebar_state="collapsed"  # Start with more screen real estate
 )
 
+import random
+
 # --- State Management Helper ---
 def rerun():
     """Helper to handle reruns across Streamlit versions."""
@@ -437,15 +439,31 @@ def show_home():
 
 def show_characters_grid():
     st.markdown("""
-    <div class="animate-enter" style='text-align: center; margin-bottom: 4rem; padding-top: 2rem;'>
+    <div class="animate-enter" style='text-align: center; margin-bottom: 2rem; padding-top: 2rem;'>
         <h1>Meet the Characters</h1>
         <p style='font-size: 1.2rem; color: var(--text-muted);'>The voices of Pencey Prep and New York</p>
     </div>
     """, unsafe_allow_html=True)
 
+    # Search Bar
+    search_col1, search_col2, search_col3 = st.columns([1, 2, 1])
+    with search_col2:
+        search_query = st.text_input("🔍 Search characters by name or trait", "", help="Type to filter characters")
+
+    st.markdown("<div style='height: 2rem;'></div>", unsafe_allow_html=True)
+
+    filtered_chars = []
+    for char in characters_data:
+        q = search_query.lower()
+        if q in char['name'].lower() or any(q in t.lower() for t in char.get('traits', [])):
+            filtered_chars.append(char)
+
+    if not filtered_chars:
+        st.info(f"No characters found matching '{search_query}'.")
+
     # Responsive Grid: 4 columns on desktop, auto-stack on mobile via CSS
     cols = st.columns(4)
-    for i, char in enumerate(characters_data):
+    for i, char in enumerate(filtered_chars):
         with cols[i % 4]:
             delay = (i * 0.05) % 0.5
             # Card content
@@ -486,12 +504,37 @@ def show_character_detail(char):
 
     with tab1:
         st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
-        st.markdown("### First Appearance")
-        st.markdown(f"""
-        <div class="card-container animate-enter" style="border-left: 6px solid var(--secondary-color); animation-delay: 0.1s;">
-            <p style="font-size: 1.1rem;">{char['first_appearance_context']}</p>
-        </div>
-        """, unsafe_allow_html=True)
+
+        c_left, c_right = st.columns([1, 1], gap="large")
+        with c_left:
+            st.markdown("### First Appearance")
+            st.markdown(f"""
+            <div class="card-container animate-enter" style="border-left: 6px solid var(--secondary-color); animation-delay: 0.1s;">
+                <p style="font-size: 1.1rem;">{char['first_appearance_context']}</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with c_right:
+            st.markdown("### Phoniness Meter")
+            # Calculate Phoniness score dynamically
+            score = 50
+            themes = char.get('associated_themes', [])
+            if "Phoniness" in themes:
+                score += 30
+            if "Innocence" in themes:
+                score -= 30
+
+            score = max(0, min(100, score))
+
+            st.markdown(f"""
+            <div class="card-container animate-enter" style="animation-delay: 0.2s; padding: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 0.5rem;">
+                    <span style="font-weight: bold; font-size: 1.1rem; color: var(--text-main);">Phoniness Rating</span>
+                    <span style="font-size: 1.5rem; font-weight: 900; color: var(--primary-color); font-family: 'Merriweather', serif;">{score}/100</span>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            st.progress(score, text="Score based on thematic associations")
 
     with tab2:
         st.markdown("<div style='height: 1rem;'></div>", unsafe_allow_html=True)
@@ -652,6 +695,16 @@ with st.sidebar:
 
     if st.button("🏳️ Start Guided Tour", use_container_width=True, type="primary"):
         TourManager.start_tour()
+
+    st.divider()
+    if st.button("🎲 Get a Random Quote", use_container_width=True):
+        all_quotes = []
+        for c in characters_data:
+            for q in c.get('quotes', []):
+                all_quotes.append((q, c['name']))
+        if all_quotes:
+            q, name = random.choice(all_quotes)
+            st.toast(f"**{name}**: *\"{q}\"*", icon="💬")
 
     st.divider()
     st.caption("The Catcher in the Rye Explorer")
