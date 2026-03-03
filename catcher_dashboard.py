@@ -23,12 +23,24 @@ def rerun():
         st.experimental_rerun()
 
 # --- CSS Injection ---
-def local_css():
-    st.markdown("""
+def local_css(theme_name=None):
+    bg_paper = "#FDFBF7"
+    if theme_name:
+        theme_colors = {
+            "Grief/Loss": "#E8ECEF",
+            "Innocence": "#FFFDF5",
+            "Alienation/Isolation": "#F0F0F5",
+            "Phoniness": "#FDFBF7",
+            "Fear of Change/Growing Up": "#FDFBF7",
+            "Identity Crisis": "#FDFBF7"
+        }
+        bg_paper = theme_colors.get(theme_name, "#FDFBF7")
+
+    st.markdown(f"""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=Lato:wght@300;400;700;900&display=swap');
 
-        :root {
+        :root {{
             /* --- Ultrathink Palette --- */
             --primary-color: #8B0000;       /* Deep Red */
             --primary-light: #A52A2A;
@@ -37,7 +49,7 @@ def local_css():
             --accent-gold: #D4AF37;         /* Classic Gold */
             --accent-blue: #4682B4;         /* Steel Blue */
 
-            --bg-paper: #FDFBF7;            /* Warm Paper */
+            --bg-paper: {bg_paper};            /* Warm Paper */
             --surface-white: #FFFFFF;
             --surface-glass: rgba(255, 255, 255, 0.75);
 
@@ -66,37 +78,37 @@ def local_css():
 
             /* --- Transitions --- */
             --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
+        }}
 
         /* --- Global Reset & Base --- */
-        .stApp {
+        .stApp {{
             background-color: var(--bg-paper);
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
             font-family: 'Lato', sans-serif;
             color: var(--text-main);
-        }
+        }}
 
         /* Typography */
-        h1, h2, h3, h4, h5, h6 {
+        h1, h2, h3, h4, h5, h6 {{
             font-family: 'Merriweather', serif;
             color: var(--primary-color) !important;
             margin-bottom: var(--space-md);
             line-height: 1.25;
-        }
+        }}
 
-        h1 { font-weight: 900 !important; letter-spacing: -0.03em; font-size: clamp(2.2rem, 5vw, 3.5rem) !important; }
-        h2 { font-weight: 700 !important; letter-spacing: -0.01em; font-size: clamp(1.75rem, 4vw, 2.5rem) !important; }
-        h3 { font-size: clamp(1.35rem, 3vw, 1.75rem) !important; }
+        h1 {{ font-weight: 900 !important; letter-spacing: -0.03em; font-size: clamp(2.2rem, 5vw, 3.5rem) !important; }}
+        h2 {{ font-weight: 700 !important; letter-spacing: -0.01em; font-size: clamp(1.75rem, 4vw, 2.5rem) !important; }}
+        h3 {{ font-size: clamp(1.35rem, 3vw, 1.75rem) !important; }}
 
-        p {
+        p {{
             line-height: 1.7;
             margin-bottom: var(--space-md);
-        }
+        }}
 
         /* --- Components --- */
 
         /* Card Container */
-        .card-container {
+        .card-container {{
             background: var(--surface-white);
             border-radius: var(--radius-md);
             padding: var(--space-lg);
@@ -108,10 +120,10 @@ def local_css():
             display: flex;
             flex-direction: column;
             height: 100%;
-        }
+        }}
 
         /* Glass Panel */
-        .glass-panel {
+        .glass-panel {{
             background: var(--surface-glass);
             backdrop-filter: blur(16px) saturate(180%);
             -webkit-backdrop-filter: blur(16px) saturate(180%);
@@ -119,19 +131,19 @@ def local_css():
             padding: var(--space-lg);
             box-shadow: var(--shadow-card);
             border: 1px solid rgba(255, 255, 255, 0.6);
-        }
+        }}
 
         /* Avatars */
-        .avatar-img {
+        .avatar-img {{
             border-radius: 50%;
             border: 4px solid #fff;
             box-shadow: var(--shadow-card);
             transition: transform 0.5s var(--ease-out-quart);
             object-fit: cover;
-        }
+        }}
 
         /* Badges/Tags */
-        .badge {
+        .badge {{
             background-color: var(--secondary-color);
             color: white;
             padding: 0.35em 0.85em;
@@ -144,11 +156,11 @@ def local_css():
             display: inline-block;
             margin: 2px;
             transition: transform 0.2s ease;
-        }
-        .badge.theme { background-color: var(--accent-blue); }
+        }}
+        .badge.theme {{ background-color: var(--accent-blue); }}
 
         /* Quote Box */
-        .quote-box {
+        .quote-box {{
             position: relative;
             background: var(--surface-white);
             padding: 2rem;
@@ -161,8 +173,8 @@ def local_css():
             border-left: 4px solid var(--primary-color);
             margin: 1.5rem 0;
             transition: all 0.3s var(--ease-out-quart);
-        }
-        .quote-box::before {
+        }}
+        .quote-box::before {{
             content: "“";
             font-size: 5rem;
             color: rgba(139, 0, 0, 0.08);
@@ -170,10 +182,10 @@ def local_css():
             top: -10px;
             left: 10px;
             font-family: serif;
-        }
+        }}
 
         /* Streamlit Button Overrides */
-        div.stButton > button {
+        div.stButton > button {{
             border: 1px solid rgba(139,0,0,0.1);
             background: white;
             color: var(--text-main);
@@ -183,117 +195,117 @@ def local_css():
             font-weight: 600;
             font-family: 'Lato', sans-serif;
             transition: all 0.3s var(--ease-out-quart);
-        }
+        }}
 
         /* Sidebar */
-        section[data-testid="stSidebar"] {
+        section[data-testid="stSidebar"] {{
             background-color: #F8F4E6;
             border-right: 1px solid rgba(139,0,0,0.05);
-        }
+        }}
 
         /* Animations */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translate3d(0, 30px, 0); }
-            to { opacity: 1; transform: translate3d(0, 0, 0); }
-        }
-        .animate-enter {
+        @keyframes fadeInUp {{
+            from {{ opacity: 0; transform: translate3d(0, 30px, 0); }}
+            to {{ opacity: 1; transform: translate3d(0, 0, 0); }}
+        }}
+        .animate-enter {{
             animation: fadeInUp 0.8s var(--ease-out-quart) forwards;
             opacity: 0; /* Start hidden */
-        }
+        }}
 
         /* --- MOBILE HYPER-OPTIMIZATION (< 768px) --- */
-        @media (max-width: 768px) {
-            h1 { margin-bottom: 1rem; }
+        @media (max-width: 768px) {{
+            h1 {{ margin-bottom: 1rem; }}
 
             /* Spacing */
-            .stApp { padding-top: 0.5rem; }
-            .block-container { padding-left: 1rem !important; padding-right: 1rem !important; }
+            .stApp {{ padding-top: 0.5rem; }}
+            .block-container {{ padding-left: 1rem !important; padding-right: 1rem !important; }}
 
             /* Components */
-            .card-container {
+            .card-container {{
                 padding: 1.25rem;
                 margin-bottom: 1rem;
                 border-radius: var(--radius-md);
                 box-shadow: var(--shadow-subtle); /* Flatter on mobile for performance/cleanliness */
-            }
+            }}
 
-            .glass-panel {
+            .glass-panel {{
                 padding: 1.25rem;
                 backdrop-filter: blur(12px); /* Slightly less blur for perf */
-            }
+            }}
 
             /* Touch Targets */
-            div.stButton > button {
+            div.stButton > button {{
                 width: 100%;
                 min-height: 52px; /* Large safe touch target */
                 font-size: 1rem;
                 margin-bottom: 0.5rem;
-            }
+            }}
 
             /* Avatars */
-            .avatar-img {
+            .avatar-img {{
                 width: 100px;
                 height: 100px;
                 margin-bottom: 10px;
-            }
+            }}
 
             /* Navigation/Layout */
             /* Force single column behavior where needed via CSS if logic doesn't catch it */
-            [data-testid="column"] {
+            [data-testid="column"] {{
                 width: 100% !important;
                 flex: 1 1 auto !important;
                 min-width: 100% !important;
-            }
-        }
+            }}
+        }}
 
         /* --- DESKTOP HYPER-OPTIMIZATION (> 1024px) --- */
-        @media (min-width: 1024px) {
+        @media (min-width: 1024px) {{
             /* Max width for readability */
-            .block-container {
+            .block-container {{
                 max-width: 1000px;
                 padding-top: 4rem;
                 padding-bottom: 5rem;
-            }
+            }}
 
             /* Hover Effects - Only on desktop */
-            .card-container:hover {
+            .card-container:hover {{
                 transform: translateY(-8px) scale(1.01);
                 box-shadow: var(--shadow-float);
                 border-color: rgba(139, 0, 0, 0.2);
-            }
+            }}
 
-            .avatar-img:hover {
+            .avatar-img:hover {{
                 transform: scale(1.1) rotate(2deg);
                 box-shadow: var(--shadow-float);
-            }
+            }}
 
-            div.stButton > button:hover {
+            div.stButton > button:hover {{
                 transform: translateY(-2px);
                 box-shadow: var(--shadow-card);
                 color: var(--primary-color);
                 border-color: var(--primary-color);
                 background-color: #FFFAFA;
-            }
+            }}
 
-            .quote-box:hover {
+            .quote-box:hover {{
                 transform: translateX(8px);
                 border-left-color: var(--accent-gold);
                 color: var(--text-main);
                 box-shadow: var(--shadow-card);
-            }
+            }}
 
-            .badge:hover {
+            .badge:hover {{
                 transform: translateY(-2px);
                 box-shadow: var(--shadow-card);
                 cursor: default;
-            }
-        }
+            }}
+        }}
 
         /* --- TOUR COMPONENT STYLES --- */
 
         /* The container targeting strategy: Find the vertical block containing our marker */
         div[data-testid="stVerticalBlock"]:has(.tour-marker),
-        div[data-testid="stVerticalBlockBorderWrapper"]:has(.tour-marker) > div[data-testid="stVerticalBlock"] {
+        div[data-testid="stVerticalBlockBorderWrapper"]:has(.tour-marker) > div[data-testid="stVerticalBlock"] {{
             position: fixed !important;
             bottom: 3rem;
             right: 3rem;
@@ -307,12 +319,12 @@ def local_css():
             box-shadow: 0 24px 48px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.8) inset;
             border: 1px solid rgba(139, 0, 0, 0.1);
             animation: slideInUp 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-        }
+        }}
 
         /* Mobile Tour Card */
-        @media (max-width: 768px) {
+        @media (max-width: 768px) {{
             div[data-testid="stVerticalBlock"]:has(.tour-marker),
-            div[data-testid="stVerticalBlockBorderWrapper"]:has(.tour-marker) > div[data-testid="stVerticalBlock"] {
+            div[data-testid="stVerticalBlockBorderWrapper"]:has(.tour-marker) > div[data-testid="stVerticalBlock"] {{
                 bottom: 0;
                 left: 0;
                 right: 0;
@@ -321,18 +333,18 @@ def local_css():
                 padding: 1.5rem;
                 padding-bottom: 2rem; /* Safe area */
                 animation: slideInUpMobile 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-            }
-        }
+            }}
+        }}
 
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translate3d(0, 40px, 0) scale(0.95); }
-            to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
-        }
+        @keyframes slideInUp {{
+            from {{ opacity: 0; transform: translate3d(0, 40px, 0) scale(0.95); }}
+            to {{ opacity: 1; transform: translate3d(0, 0, 0) scale(1); }}
+        }}
 
-        @keyframes slideInUpMobile {
-            from { opacity: 0; transform: translate3d(0, 100%, 0); }
-            to { opacity: 1; transform: translate3d(0, 0, 0); }
-        }
+        @keyframes slideInUpMobile {{
+            from {{ opacity: 0; transform: translate3d(0, 100%, 0); }}
+            to {{ opacity: 1; transform: translate3d(0, 0, 0); }}
+        }}
 
     </style>
     """, unsafe_allow_html=True)
@@ -479,6 +491,10 @@ def show_characters_grid():
                 select_char(char)
 
 def show_character_detail(char):
+    if char['name'] in ["Holden Caulfield", "Phoebe Caulfield"] and not st.session_state.get('snow_seen'):
+        st.snow()
+        st.session_state.snow_seen = True
+
     st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
     if st.button("← Back to Characters", key="back_char"):
         navigate_to("Characters")
@@ -679,7 +695,7 @@ def show_character_network():
 
 # --- Main Application Execution ---
 
-local_css()
+local_css(st.session_state.selected_theme['name'] if st.session_state.page == 'Theme Detail' and st.session_state.selected_theme else None)
 
 # Sidebar Navigation
 with st.sidebar:
@@ -704,7 +720,10 @@ with st.sidebar:
                 all_quotes.append((q, c['name']))
         if all_quotes:
             q, name = random.choice(all_quotes)
-            st.toast(f"**{name}**: *\"{q}\"*", icon="💬")
+            st.session_state.random_quote = (q, name)
+
+    if 'random_quote' in st.session_state and st.session_state.random_quote:
+        st.success(f"**{st.session_state.random_quote[1]}**: *\"{st.session_state.random_quote[0]}\"*", icon="💬")
 
     st.divider()
     st.caption("The Catcher in the Rye Explorer")
