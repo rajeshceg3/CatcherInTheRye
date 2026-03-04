@@ -3,6 +3,7 @@ import graphviz
 from characters import characters_data
 from themes import themes_data
 from tour import TourManager
+from symbols import symbols_data
 
 # --- Page Config ---
 st.set_page_config(
@@ -213,6 +214,27 @@ def local_css(theme_name=None):
             opacity: 0; /* Start hidden */
         }}
 
+        /* Atmospheric Effects */
+        .atmosphere-rain {{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 100;
+            background-image:
+                linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.1)),
+                url("data:image/svg+xml,%3Csvg width='10' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5,0 L5,20' stroke='rgba(139,0,0,0.1)' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            animation: rainDrop 1s linear infinite;
+        }}
+
+        @keyframes rainDrop {{
+            0% {{ background-position: 0px 0px; }}
+            100% {{ background-position: 20px 200px; }}
+        }}
+
         /* --- MOBILE HYPER-OPTIMIZATION (< 768px) --- */
         @media (max-width: 768px) {{
             h1 {{ margin-bottom: 1rem; }}
@@ -357,6 +379,8 @@ if 'selected_char' not in st.session_state:
     st.session_state.selected_char = None
 if 'selected_theme' not in st.session_state:
     st.session_state.selected_theme = None
+if 'selected_symbol' not in st.session_state:
+    st.session_state.selected_symbol = None
 if 'network_visited' not in st.session_state:
     st.session_state.network_visited = False
 
@@ -374,9 +398,16 @@ def select_theme(theme):
     st.session_state.page = 'Theme Detail'
     rerun()
 
+def select_symbol(symbol):
+    st.session_state.selected_symbol = symbol
+    st.session_state.page = 'Symbol Detail'
+    rerun()
+
 # --- Views ---
 
 def show_home():
+    if st.session_state.get('rain_effect', False):
+        st.markdown("<div class='atmosphere-rain'></div>", unsafe_allow_html=True)
     if not st.session_state.get('home_visited'):
         st.toast("Welcome to the Catcher in the Rye Explorer! 🧭", icon="👋")
         st.session_state.home_visited = True
@@ -449,7 +480,22 @@ def show_home():
         if st.button("Explore Themes", use_container_width=True):
             navigate_to("Themes")
 
+    col3, col4 = st.columns(2, gap="medium")
+    with col3:
+        st.markdown("""
+        <div class="card-container animate-enter" style="animation-delay: 0.6s; margin-top: 1rem;">
+            <div style="font-size: 3rem; margin-bottom: 1.5rem; background: var(--bg-paper); width: fit-content; padding: 10px; border-radius: 50%;">🧢</div>
+            <h2 style="font-size: 1.8rem !important;">Symbols</h2>
+            <p>Discover the recurring objects and locations that carry profound meaning, such as the red hunting hat and the ducks in Central Park.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Explore Symbols", use_container_width=True):
+            navigate_to("Symbols")
+
 def show_characters_grid():
+    if st.session_state.get('rain_effect', False):
+        st.markdown("<div class='atmosphere-rain'></div>", unsafe_allow_html=True)
+
     st.markdown("""
     <div class="animate-enter" style='text-align: center; margin-bottom: 2rem; padding-top: 2rem;'>
         <h1>Meet the Characters</h1>
@@ -491,6 +537,9 @@ def show_characters_grid():
                 select_char(char)
 
 def show_character_detail(char):
+    if st.session_state.get('rain_effect', False):
+        st.markdown("<div class='atmosphere-rain'></div>", unsafe_allow_html=True)
+
     if char['name'] in ["Holden Caulfield", "Phoebe Caulfield"] and not st.session_state.get('snow_seen'):
         st.snow()
         st.session_state.snow_seen = True
@@ -595,6 +644,9 @@ def show_character_detail(char):
             st.info("No themes associated.")
 
 def show_themes_grid():
+    if st.session_state.get('rain_effect', False):
+        st.markdown("<div class='atmosphere-rain'></div>", unsafe_allow_html=True)
+
     st.markdown("""
     <div class="animate-enter" style='text-align: center; margin-bottom: 4rem; padding-top: 2rem;'>
         <h1>Literary Themes</h1>
@@ -617,6 +669,9 @@ def show_themes_grid():
                 select_theme(theme)
 
 def show_theme_detail(theme):
+    if st.session_state.get('rain_effect', False):
+        st.markdown("<div class='atmosphere-rain'></div>", unsafe_allow_html=True)
+
     st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
     if st.button("← Back to Themes", key="back_theme"):
         navigate_to("Themes")
@@ -653,8 +708,72 @@ def show_theme_detail(theme):
         </div>
         """.format(theme['name'], "".join([f"<span class='badge' style='font-size: 0.95em; padding: 8px 14px;'>{char}</span>" for char in theme['characters_associated']])), unsafe_allow_html=True)
 
+def show_symbols_grid():
+    if st.session_state.get('rain_effect', False):
+        st.markdown("<div class='atmosphere-rain'></div>", unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="animate-enter" style='text-align: center; margin-bottom: 4rem; padding-top: 2rem;'>
+        <h1>Key Symbols</h1>
+        <p style='font-size: 1.2rem; color: var(--text-muted);'>Recurring motifs with profound meaning in Holden's world</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    cols = st.columns(3)
+    for i, symbol in enumerate(symbols_data):
+        with cols[i % 3]:
+            delay = (i * 0.1) % 0.5
+            st.markdown(f"""
+            <div class="card-container animate-enter" style="align-items: center; text-align: center; padding-top: 3rem; animation-delay: {delay}s; padding-bottom: 2rem;">
+                <div style="font-size: 4rem; margin-bottom: 1rem; background: var(--bg-paper); width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: var(--shadow-card);">{symbol['image_emoji']}</div>
+                <h3 style="margin-top: 1rem; margin-bottom: 1rem; font-size: 1.4rem !important;">{symbol['name']}</h3>
+                <p style="font-size: 0.95rem; color: var(--text-light); line-height: 1.5; margin-bottom: 1.5rem;">{symbol['description'][:100]}...</p>
+            </div>
+            """, unsafe_allow_html=True)
+            if st.button(f"View Details", key=f"btn_sym_{symbol['name']}", use_container_width=True):
+                select_symbol(symbol)
+
+def show_symbol_detail(symbol):
+    if symbol['name'] == 'The Carousel and the Gold Ring' and not st.session_state.get('rain_effect', False):
+        st.session_state.rain_effect = True
+        st.toast("It started raining.", icon="🌧️")
+    elif symbol['name'] != 'The Carousel and the Gold Ring' and st.session_state.get('rain_effect', False):
+        st.session_state.rain_effect = False
+
+    if st.session_state.get('rain_effect', False):
+        st.markdown("<div class='atmosphere-rain'></div>", unsafe_allow_html=True)
+
+    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    if st.button("← Back to Symbols", key="back_symbol"):
+        navigate_to("Symbols")
+
+    st.markdown(f"""
+    <div class="glass-panel animate-enter" style="display: flex; flex-direction: column; align-items: center; margin-bottom: 3rem; margin-top: 1rem; text-align: center; padding: 4rem 2rem;">
+        <div style="font-size: 6rem; margin-bottom: 1.5rem; text-shadow: 0 10px 20px rgba(0,0,0,0.1);">{symbol['image_emoji']}</div>
+        <h1 style='margin-bottom: 1.5rem;'>{symbol['name']}</h1>
+        <p style='font-size: 1.2em; line-height: 1.8; color: var(--text-main); font-weight: 300; max-width: 800px; margin: 0 auto;'>{symbol['description']}</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if symbol.get('related_quotes'):
+        st.markdown("<h3 style='margin-bottom: 1.5rem; text-align: center;'>Illustrative Quotes</h3>", unsafe_allow_html=True)
+
+        # Display quotes in columns if more than 1
+        num_quotes = len(symbol['related_quotes'])
+        if num_quotes > 1:
+            cols = st.columns(min(num_quotes, 2))
+            for i, q in enumerate(symbol['related_quotes']):
+                with cols[i % 2]:
+                    delay = (i * 0.1) % 0.5
+                    st.markdown(f"<div class='quote-box animate-enter' style='animation-delay: {delay}s;'>“{q}”</div>", unsafe_allow_html=True)
+        else:
+            delay = 0.1
+            st.markdown(f"<div class='quote-box animate-enter' style='animation-delay: {delay}s; max-width: 800px; margin-left: auto; margin-right: auto;'>“{symbol['related_quotes'][0]}”</div>", unsafe_allow_html=True)
 
 def show_character_network():
+    if st.session_state.get('rain_effect', False):
+        st.markdown("<div class='atmosphere-rain'></div>", unsafe_allow_html=True)
+
     if not st.session_state.get('network_visited'):
         st.toast("Hover over character nodes and links to explore their relationships.", icon="🕸️")
         st.session_state.network_visited = True
@@ -708,6 +827,8 @@ with st.sidebar:
         navigate_to("Character Network")
     if st.button("📚 Theme Explorer", use_container_width=True):
         navigate_to("Themes")
+    if st.button("🧢 Symbols Explorer", use_container_width=True):
+        navigate_to("Symbols")
 
     if st.button("🏳️ Start Guided Tour", use_container_width=True, type="primary"):
         TourManager.start_tour()
@@ -748,6 +869,13 @@ elif st.session_state.page == 'Theme Detail':
         show_theme_detail(st.session_state.selected_theme)
     else:
         navigate_to("Themes")
+elif st.session_state.page == 'Symbols':
+    show_symbols_grid()
+elif st.session_state.page == 'Symbol Detail':
+    if st.session_state.selected_symbol:
+        show_symbol_detail(st.session_state.selected_symbol)
+    else:
+        navigate_to("Symbols")
 
 # --- Guided Tour Overlay ---
 TourManager.render_tour()
