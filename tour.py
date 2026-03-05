@@ -37,13 +37,18 @@ TOUR_STEPS = [
     },
     {
         "title": "Themes Explorer",
-        "content": "Finally, the Themes explorer. Here we analyze the deeper meanings—Phoniness, Innocence, Grief. Click any theme to see how it connects back to the characters.",
+        "content": "Here we analyze the deeper meanings—Phoniness, Innocence, Grief. Click any theme to see how it connects back to the characters.",
         "target_page": "Themes"
+    },
+    {
+        "title": "Symbols Explorer",
+        "content": "Finally, explore the profound symbols of the novel, like the red hunting hat and the ducks in Central Park. Interactive cards reveal their significance and dynamic atmospheric effects respond to your discoveries.",
+        "target_page": "Symbols"
     },
     {
         "title": "Your Journey Begins",
         "content": "You are now ready to explore on your own. Enjoy the journey.",
-        "target_page": "Themes" # Stay on Themes or go back to Home
+        "target_page": "Symbols"
     }
 ]
 
