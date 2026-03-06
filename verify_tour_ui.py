@@ -40,12 +40,12 @@ def run_test():
 
         # Wait for the tour overlay to appear
         print("Waiting for Tour Overlay...")
-        # The tour overlay has "Step 1 of 9" text.
+        # The tour overlay has "Step 1 of 10" text now because of the new steps.
         try:
-            page.wait_for_selector("text=Step 1 of 9", timeout=10000)
-            print("Tour overlay found: 'Step 1 of 9' is visible.")
+            page.wait_for_selector("text=Step 1 of 10", timeout=10000)
+            print("Tour overlay found: 'Step 1 of 10' is visible.")
         except:
-            print("Timeout waiting for 'Step 1 of 9'.")
+            print("Timeout waiting for 'Step 1 of 10'.")
             page.screenshot(path="verification_failed_overlay.png")
             print("Saved verification_failed_overlay.png")
 

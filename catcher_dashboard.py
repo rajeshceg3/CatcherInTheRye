@@ -24,9 +24,24 @@ def rerun():
         st.experimental_rerun()
 
 # --- CSS Injection ---
-def local_css(theme_name=None):
+def local_css(theme_name=None, cinematic=False):
     bg_paper = "#FDFBF7"
-    if theme_name:
+    text_main = "#1A1A1A"
+    text_muted = "#555555"
+    text_light = "#888888"
+    surface_white = "#FFFFFF"
+    surface_glass = "rgba(255, 255, 255, 0.75)"
+    primary_color = "#8B0000"
+
+    if cinematic:
+        bg_paper = "#0F0F0F"
+        text_main = "#E0E0E0"
+        text_muted = "#A0A0A0"
+        text_light = "#707070"
+        surface_white = "#1A1A1A"
+        surface_glass = "rgba(26, 26, 26, 0.75)"
+        primary_color = "#FF4040"
+    elif theme_name:
         theme_colors = {
             "Grief/Loss": "#E8ECEF",
             "Innocence": "#FFFDF5",
@@ -43,20 +58,20 @@ def local_css(theme_name=None):
 
         :root {{
             /* --- Ultrathink Palette --- */
-            --primary-color: #8B0000;       /* Deep Red */
+            --primary-color: {primary_color};       /* Deep Red / Bright Red */
             --primary-light: #A52A2A;
             --primary-dark: #600000;
             --secondary-color: #556B2F;     /* Olive Green */
             --accent-gold: #D4AF37;         /* Classic Gold */
             --accent-blue: #4682B4;         /* Steel Blue */
 
-            --bg-paper: {bg_paper};            /* Warm Paper */
-            --surface-white: #FFFFFF;
-            --surface-glass: rgba(255, 255, 255, 0.75);
+            --bg-paper: {bg_paper};            /* Warm Paper / Dark */
+            --surface-white: {surface_white};
+            --surface-glass: {surface_glass};
 
-            --text-main: #1A1A1A;           /* Near Black */
-            --text-muted: #555555;
-            --text-light: #888888;
+            --text-main: {text_main};           /* Near Black / Light */
+            --text-muted: {text_muted};
+            --text-light: {text_light};
 
             /* --- Spacing System --- */
             --space-xs: 4px;
@@ -87,6 +102,87 @@ def local_css(theme_name=None):
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
             font-family: 'Lato', sans-serif;
             color: var(--text-main);
+        }}
+
+        /* --- Timeline Components --- */
+        div[data-testid="stVerticalBlock"]:has(.timeline-marker) {{
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }}
+
+        div[data-testid="stVerticalBlock"]:has(.timeline-marker)::after {{
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+            opacity: 0.3;
+            z-index: 0;
+        }}
+
+        .timeline-item {{
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }}
+
+        .timeline-item::after {{
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: var(--bg-paper);
+            border: 4px solid var(--primary-color);
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: var(--shadow-subtle);
+        }}
+
+        .timeline-item.left {{
+            left: 0;
+        }}
+
+        .timeline-item.right {{
+            left: 50%;
+        }}
+
+        .timeline-item.right::after {{
+            left: -10px;
+        }}
+
+        .timeline-content {{
+            padding: 20px 30px;
+            background: var(--surface-white);
+            position: relative;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-card);
+        }}
+
+        @media screen and (max-width: 768px) {{
+            .timeline-container::after {{
+                left: 31px;
+            }}
+            .timeline-item {{
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }}
+            .timeline-item.left::after, .timeline-item.right::after {{
+                left: 21px;
+            }}
+            .timeline-item.right {{
+                left: 0%;
+            }}
         }}
 
         /* Typography */
@@ -404,6 +500,40 @@ def select_symbol(symbol):
     rerun()
 
 # --- Views ---
+
+def show_journey():
+    if st.session_state.get('rain_effect', False):
+        st.markdown("<div class='atmosphere-rain'></div>", unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="animate-enter" style='text-align: center; margin-bottom: 4rem; padding-top: 2rem;'>
+        <h1>Holden's Journey</h1>
+        <p style='font-size: 1.2rem; color: var(--text-muted);'>A timeline of pivotal symbols and moments</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Timeline container
+    with st.container():
+        st.markdown("<div class='timeline-marker'></div>", unsafe_allow_html=True)
+
+        for i, symbol in enumerate(symbols_data):
+        delay = (i * 0.15) % 0.8
+        direction = "left" if i % 2 == 0 else "right"
+        st.markdown(f"""
+        <div class="timeline-item {direction} animate-enter" style="animation-delay: {delay}s;">
+            <div class="timeline-content card-container">
+                <div style="font-size: 3rem; margin-bottom: 1rem; background: var(--bg-paper); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: var(--shadow-card); margin-left: auto; margin-right: auto;">{symbol['image_emoji']}</div>
+                <h3 style="margin-top: 0.5rem; font-size: 1.4rem !important;">{symbol['name']}</h3>
+                <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">{symbol['description'][:120]}...</p>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        # Adding an interactive button correctly outside the raw markdown but inside the columns logic for timeline
+        col1, col2, col3 = st.columns([1, 2, 1]) if direction == "left" else st.columns([1, 2, 1]) # simplified to center buttons for now to ensure functionality within markdown flow
+        with col2:
+             if st.button(f"Explore {symbol['name']}", key=f"journey_btn_{i}", use_container_width=True):
+                  select_symbol(symbol)
+
 
 def show_home():
     if st.session_state.get('rain_effect', False):
@@ -814,8 +944,6 @@ def show_character_network():
 
 # --- Main Application Execution ---
 
-local_css(st.session_state.selected_theme['name'] if st.session_state.page == 'Theme Detail' and st.session_state.selected_theme else None)
-
 # Sidebar Navigation
 with st.sidebar:
     st.markdown("## 🧭 Navigation")
@@ -829,9 +957,23 @@ with st.sidebar:
         navigate_to("Themes")
     if st.button("🧢 Symbols Explorer", use_container_width=True):
         navigate_to("Symbols")
+    if st.button("🗺️ Holden's Journey", use_container_width=True):
+        navigate_to("Journey")
 
     if st.button("🏳️ Start Guided Tour", use_container_width=True, type="primary"):
         TourManager.start_tour()
+
+    st.divider()
+
+    st.markdown("## 🎬 Atmosphere")
+    if 'cinematic_mode' not in st.session_state:
+        st.session_state.cinematic_mode = False
+
+    def toggle_cinematic():
+        st.session_state.cinematic_mode = not st.session_state.cinematic_mode
+        st.session_state.rain_effect = st.session_state.cinematic_mode
+
+    st.toggle("Cinematic Mode", value=st.session_state.cinematic_mode, on_change=toggle_cinematic, help="Immerse yourself in Holden's mood")
 
     st.divider()
     if st.button("🎲 Get a Random Quote", use_container_width=True):
@@ -849,6 +991,11 @@ with st.sidebar:
     st.divider()
     st.caption("The Catcher in the Rye Explorer")
     st.caption("v2.0 • Ultrathink UX")
+
+local_css(
+    st.session_state.selected_theme['name'] if st.session_state.page == 'Theme Detail' and st.session_state.selected_theme else None,
+    cinematic=st.session_state.get('cinematic_mode', False)
+)
 
 # Routing Logic
 if st.session_state.page == 'Home':
@@ -876,6 +1023,8 @@ elif st.session_state.page == 'Symbol Detail':
         show_symbol_detail(st.session_state.selected_symbol)
     else:
         navigate_to("Symbols")
+elif st.session_state.page == 'Journey':
+    show_journey()
 
 # --- Guided Tour Overlay ---
 TourManager.render_tour()

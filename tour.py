@@ -46,9 +46,14 @@ TOUR_STEPS = [
         "target_page": "Symbols"
     },
     {
+        "title": "Holden's Journey",
+        "content": "Follow the timeline of pivotal moments and symbols that shaped Holden's experience, tracing his spatial and emotional trajectory.",
+        "target_page": "Journey"
+    },
+    {
         "title": "Your Journey Begins",
-        "content": "You are now ready to explore on your own. Enjoy the journey.",
-        "target_page": "Symbols"
+        "content": "You are now ready to explore on your own. Try toggling 'Cinematic Mode' in the sidebar to immerse yourself in Holden's mood. Enjoy the journey.",
+        "target_page": "Journey"
     }
 ]
 
