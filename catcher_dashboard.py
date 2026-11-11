@@ -517,9 +517,9 @@ def show_journey():
         st.markdown("<div class='timeline-marker'></div>", unsafe_allow_html=True)
 
         for i, symbol in enumerate(symbols_data):
-        delay = (i * 0.15) % 0.8
-        direction = "left" if i % 2 == 0 else "right"
-        st.markdown(f"""
+            delay = (i * 0.15) % 0.8
+            direction = "left" if i % 2 == 0 else "right"
+            st.markdown(f"""
         <div class="timeline-item {direction} animate-enter" style="animation-delay: {delay}s;">
             <div class="timeline-content card-container">
                 <div style="font-size: 3rem; margin-bottom: 1rem; background: var(--bg-paper); width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: var(--shadow-card); margin-left: auto; margin-right: auto;">{symbol['image_emoji']}</div>
